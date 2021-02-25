@@ -10,7 +10,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
-        rightSpark = new Spark(Constants.LEFT_MOTOR_ID);
+        rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
         aButton = new DigitalInput(Constants.A_BUTTON_ID);
         bButton = new DigitalInput(Constants.B_BUTTON_ID);
         cButton = new DigitalInput(Constants.C_BUTTON_ID);
