@@ -8,6 +8,10 @@ import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDevice.Direction;
 import edu.wpi.first.hal.SimDouble;
 
+/*
+ *   Romi Gyro - DON'T EDIT
+ */
+
 public class RomiGyro {
   private SimDouble m_simRateX;
   private SimDouble m_simRateY;

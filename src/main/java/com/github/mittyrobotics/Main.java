@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.RobotBase;
  */
 public final class Main {
   private Main() {}
-
+  // Start the Robot class in Robot.java
   public static void main(String... args) {
     RobotBase.startRobot(Robot::new);
   }
