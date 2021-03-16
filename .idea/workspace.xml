@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34a8bc03-e56d-48a3-9c6f-5fe36900ebe8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/Robot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/RomiGyro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/RomiGyro.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +74,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1615859314397</updated>
-      <workItem from="1615859317250" duration="1531000" />
+      <workItem from="1615859317250" duration="2156000" />
     </task>
     <servers />
   </component>
