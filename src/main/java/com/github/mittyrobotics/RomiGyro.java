@@ -20,6 +20,7 @@ public class RomiGyro {
   private double m_angleYOffset;
   private double m_angleZOffset;
 
+  /** Create a new RomiGyro. */
   public RomiGyro() {
     SimDevice gyroSimDevice = SimDevice.create("Gyro:RomiGyro");
     if (gyroSimDevice != null) {
@@ -34,7 +35,11 @@ public class RomiGyro {
     }
   }
 
-
+  /**
+   * Get the rate of turn in degrees-per-second around the X-axis.
+   *
+   * @return rate of turn in degrees-per-second
+   */
   public double getRateX() {
     if (m_simRateX != null) {
       return m_simRateX.get();
@@ -43,6 +48,11 @@ public class RomiGyro {
     return 0.0;
   }
 
+  /**
+   * Get the rate of turn in degrees-per-second around the Y-axis.
+   *
+   * @return rate of turn in degrees-per-second
+   */
   public double getRateY() {
     if (m_simRateY != null) {
       return m_simRateY.get();
@@ -51,6 +61,11 @@ public class RomiGyro {
     return 0.0;
   }
 
+  /**
+   * Get the rate of turn in degrees-per-second around the Z-axis.
+   *
+   * @return rate of turn in degrees-per-second
+   */
   public double getRateZ() {
     if (m_simRateZ != null) {
       return m_simRateZ.get();
@@ -59,6 +74,11 @@ public class RomiGyro {
     return 0.0;
   }
 
+  /**
+   * Get the currently reported angle around the X-axis.
+   *
+   * @return current angle around X-axis in degrees
+   */
   public double getAngleX() {
     if (m_simAngleX != null) {
       return m_simAngleX.get() - m_angleXOffset;
@@ -67,6 +87,11 @@ public class RomiGyro {
     return 0.0;
   }
 
+  /**
+   * Get the currently reported angle around the X-axis.
+   *
+   * @return current angle around Y-axis in degrees
+   */
   public double getAngleY() {
     if (m_simAngleY != null) {
       return m_simAngleY.get() - m_angleYOffset;
@@ -75,6 +100,11 @@ public class RomiGyro {
     return 0.0;
   }
 
+  /**
+   * Get the currently reported angle around the Z-axis.
+   *
+   * @return current angle around Z-axis in degrees
+   */
   public double getAngleZ() {
     if (m_simAngleZ != null) {
       return m_simAngleZ.get() - m_angleZOffset;
@@ -83,6 +113,7 @@ public class RomiGyro {
     return 0.0;
   }
 
+  /** Reset the gyro angles to 0. */
   public void reset() {
     if (m_simAngleX != null) {
       m_angleXOffset = m_simAngleX.get();
