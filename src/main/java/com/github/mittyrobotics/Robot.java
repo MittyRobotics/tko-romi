@@ -11,7 +11,6 @@ public class Robot extends TimedRobot {
     private DigitalInput aButton, bButton, cButton;
 
     private int dir;
-    private static volatile boolean wPressed = false;
 
 
     @Override
@@ -64,11 +63,11 @@ public class Robot extends TimedRobot {
             dir = 0;
         }
 
-        if(aButton.get() || wPressed){
+        if(aButton.get()) {
             leftSpark.set(1);
             rightSpark.set(1);
             dir = 1;
-        } else if(bButton.get()){
+        } else if(bButton.get()) {
             leftSpark.set(-1);
             rightSpark.set(-1);
             dir = -1;
