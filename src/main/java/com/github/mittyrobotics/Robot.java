@@ -15,9 +15,25 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
+
+    Spark sparkLeft, sparkRight;
+
+    DigitalInput digitalInputA;
+    DigitalInput digitalInputB;
+    DigitalInput digitalInputC;
+
     @Override
     public void robotInit() {
+        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
 
+        digitalInputA = new DigitalInput(Constants.A_BUTTON_ID);
+        digitalInputB = new DigitalInput(Constants.B_BUTTON_ID);
+        digitalInputC = new DigitalInput(Constants.C_BUTTON_ID);
+
+
+        sparkRight.setInverted(false);
+        sparkLeft.setInverted(true);
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
@@ -56,6 +72,18 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        sparkLeft.setSpeed(0);
+        sparkRight.setSpeed(0);
+        if (digitalInputA.get()){
+            sparkLeft.setSpeed(1);
+            sparkRight.setSpeed(1);
+        }else if (digitalInputB.get()){
+            sparkLeft.setSpeed(-1);
+            sparkRight.setSpeed(-1);
+        }else if (digitalInputC.get()){
+            sparkLeft.setSpeed(0);
+            sparkRight.setSpeed(0);
+        }
 
     }
 
