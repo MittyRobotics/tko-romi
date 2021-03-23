@@ -1,6 +1,5 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -10,7 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 /*
  *  YOUR WIFI MUST BE CONNECTED TO ROMI FOR THIS TO WORK
  */
-public class Robot extends TimedRobot {
+public class Robotgyro extends TimedRobot {
 
     //Runs when the robot is first started up and should be used for any initialization code
     /*
@@ -20,12 +19,16 @@ public class Robot extends TimedRobot {
     Spark sparkLeft;
     Encoder encoder;
     RomiGyro gyro;
+    @Override
     public void robotInit() {
         sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
         encoder = new Encoder(Constants.LEFT_ENCODER_IDS[0], Constants.LEFT_ENCODER_IDS[1]);
 
         encoder.reset();
         encoder.setDistancePerPulse(1./256.);
+
+        gyro = new RomiGyro();
+        gyro.reset();
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
@@ -67,7 +70,7 @@ public class Robot extends TimedRobot {
         double distance = encoder.getDistance();
         double rate = encoder.getRate();
 
-        if (distance<5){
+        if (gyro.getAngleZ() <90){
             sparkLeft.set(1);
         }
         else{
