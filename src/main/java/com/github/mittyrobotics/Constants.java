@@ -1,6 +1,6 @@
 package com.github.mittyrobotics;
 
-// Constants - these variables should not be used, can be called with Constants.VAR
+// Constants - these variables should not be modified, can be called with Constants.VAR
 
 public class Constants {
     public static final int LEFT_MOTOR_ID = 0;

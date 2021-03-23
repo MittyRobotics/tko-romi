@@ -15,9 +15,44 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
+
+    Spark sparkLeft, sparkRight;
+
+    DigitalInput aButton, bButton, cButton;
+
     @Override
     public void robotInit() {
+        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
 
+        aButton = new DigitalInput(Constants.A_BUTTON_ID);
+        bButton = new DigitalInput(Constants.B_BUTTON_ID);
+        cButton = new DigitalInput(Constants.C_BUTTON_ID);
+
+        sparkLeft.setInverted(true);
+        sparkRight.setInverted(false);
+    }
+
+    //Runs periodically during teleoperated mode
+    /*
+     *  WRITE YOUR DRIVE CODE HERE
+     */
+    @Override
+    public void teleopPeriodic() {
+        if (aButton.get()) {
+            //left
+            sparkLeft.set(-1);
+            sparkRight.set(1);
+        } else if (bButton.get()) {
+            //backwards
+            sparkLeft.set(-1);
+            sparkRight.set(-1);
+        } else if (cButton.get()) {
+            //stop
+            sparkLeft.set(0);
+            sparkRight.set(0);
+        } else {
+        }
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
@@ -47,15 +82,6 @@ public class Robot extends TimedRobot {
     //Runs periodically during autonomous mode
     @Override
     public void autonomousPeriodic() {
-
-    }
-
-    //Runs periodically during teleoperated mode
-    /*
-     *  WRITE YOUR DRIVE CODE HERE
-     */
-    @Override
-    public void teleopPeriodic() {
 
     }
 
