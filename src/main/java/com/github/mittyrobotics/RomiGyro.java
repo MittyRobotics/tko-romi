@@ -13,6 +13,9 @@ import edu.wpi.first.hal.SimDouble;
  */
 
 public class RomiGyro {
+  private final double rateOffsetX = 0;
+  private final double rateOffsetY = 0;
+  private final double rateOffsetZ = 0;
   private SimDouble m_simRateX;
   private SimDouble m_simRateY;
   private SimDouble m_simRateZ;
@@ -124,5 +127,10 @@ public class RomiGyro {
       m_angleYOffset = m_simAngleY.get();
       m_angleZOffset = m_simAngleZ.get();
     }
+  }
+  public void updateGyro(){
+    m_angleXOffset += rateOffsetX;
+    m_angleYOffset += rateOffsetY;
+    m_angleZOffset += rateOffsetZ;
   }
 }
