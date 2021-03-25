@@ -55,10 +55,24 @@ public class RobotGyro extends TimedRobot{
             if (angle <= 88.5) {
                 sparkLeft.set(-1);
                 sparkRight.set(1);
+                //drive forward test to see if teleop registered
+                //NOTE - automatically quits after first teleop is run
+                //is that supposed to happen
+                sparkLeft.set(1);
+                sparkRight.set(1);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                sparkLeft.set(0);
+                sparkRight.set(0);
 
             } else {
                 sparkLeft.set(0);
                 sparkRight.set(0);
+
+
             }
             double distance = Math.abs(encoder.getDistance());
 
