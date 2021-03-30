@@ -1,65 +1,51 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Spark;
+import com.github.mittyrobotics.commands.DriveAtSpeedCommand;
+import com.github.mittyrobotics.commands.DriveDistanceCommand;
+import com.github.mittyrobotics.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
-//Java automatically runs this class, and calls the various functions.
-/*
- *  YOUR WIFI MUST BE CONNECTED TO ROMI FOR THIS TO WORK
- */
 public class Robot extends TimedRobot {
 
-    //Runs when the robot is first started up and should be used for any initialization code
-    /*
-     *  INITIALIZE CLASSES HERE
-     */
     @Override
     public void robotInit() {
 
-    }
-
-    //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
-    @Override
-    public void autonomousInit() {
+//        OI.getInstance().initHardware();
+        DrivetrainSubsystem.getInstance().initHardware();
 
     }
 
-    //Runs when teleoperated mode (robot controlled by driver) is first activated
     @Override
     public void teleopInit() {
-
+        CommandScheduler.getInstance().schedule(new DriveAtSpeedCommand(0.8f));
     }
 
-    //Runs when test mode is activated
     @Override
-    public void testInit() {
-
+    public void autonomousInit() {
+        CommandScheduler.getInstance().schedule(new DriveDistanceCommand(10, 0.1f));
     }
 
-    //Runs whenever the robot is on, periodically: should be used for command schedulers
-    @Override
-    public void robotPeriodic() {
-
-    }
-
-    //Runs periodically during autonomous mode
-    @Override
-    public void autonomousPeriodic() {
-
-    }
-
-    //Runs periodically during teleoperated mode
-    /*
-     *  WRITE YOUR DRIVE CODE HERE
-     */
     @Override
     public void teleopPeriodic() {
 
     }
 
-    //Runs periodically during test mode
+    @Override
+    public void autonomousPeriodic() {
+    }
+
+    @Override
+    public void testInit() {
+
+    }
+
+    @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
+    }
+
     @Override
     public void testPeriodic() {
 

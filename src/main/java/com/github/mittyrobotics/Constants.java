@@ -7,7 +7,8 @@ public class Constants {
     public static final int RIGHT_MOTOR_ID = 1;
     public static final int[] LEFT_ENCODER_IDS = {4, 5};
     public static final int[] RIGHT_ENCODER_IDS = {6, 7};
-    private static final double TICKS_PER_INCH = 166.32;
+    public static final double TICKS_PER_INCH = 166.32;
+    public static final int CONTROLLER_PORT = 2;
     public static final int A_BUTTON_ID = 0;
     public static final int B_BUTTON_ID = 1;
     public static final int C_BUTTON_ID = 2;
