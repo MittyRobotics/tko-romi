@@ -10,17 +10,27 @@ import edu.wpi.first.wpilibj.TimedRobot;
 /*
  *  YOUR WIFI MUST BE CONNECTED TO ROMI FOR THIS TO WORK
  */
-public class Robot extends TimedRobot {
+public class RobotGyroDay3 extends TimedRobot {
 
     //Runs when the robot is first started up and should be used for any initialization code
     /*
      *  INITIALIZE CLASSES HERE
      */
 
+    RomiGyro gyro;
+    Spark sparkLeft, sparkRight;
 
     @Override
     public void robotInit() {
+        gyro = new RomiGyro();
+        gyro.reset(); // Setting it to 0 to recalibrate
 
+        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
+
+        // If left motor is inverted
+        //sparkLeft.setInverted(true);
+        //sparkRight.setInverted((false);
     }
 
     //Runs periodically during teleoperated mode
@@ -29,18 +39,27 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-
-    }
-
-    //Runs when teleoperated mode (robot controlled by driver) is first activated
-    @Override
-    public void teleopInit() {
+        // Rotate Romi until gyro Z angle reads 90 degrees, then stop.
+        if(gyro.getAngleZ() < 88.5) {
+            sparkLeft.set(-1);
+            sparkLeft.set(1);
+        }
+        else {
+            sparkLeft.set(0);
+            sparkRight.set(0);
+        }
 
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
+
+    }
+
+    //Runs when teleoperated mode (robot controlled by driver) is first activated
+    @Override
+    public void teleopInit() {
 
     }
 
