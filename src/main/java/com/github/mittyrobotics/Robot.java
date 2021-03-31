@@ -1,9 +1,13 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.Commands.DriveAtSpeedCommand;
+import com.github.mittyrobotics.Subsystems.DriveTrainSubsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -20,7 +24,7 @@ public class Robot extends TimedRobot {
     Spark sparkLeft, sparkRight;
 
 
-    Encoder encoder = new Encoder(Constants.LEFT_ENCODER_IDS[1], Constants.LEFT_ENCODER_IDS[2]);
+    Encoder encoder = new Encoder(Constants.LEFT_ENCODER_IDS[0], Constants.LEFT_ENCODER_IDS[1]);
 
 
     DigitalInput dia;
@@ -32,8 +36,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
-        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
+
+        DriveTrainSubsystems.getInstance().initHardware();
+
+/*      sparkLeft = new Spark(Constants.RIGHT_MOTOR_ID);
+        sparkRight = new Spark(Constants.LEFT_MOTOR_ID);
 
         encoder.reset();
 
@@ -46,7 +53,7 @@ public class Robot extends TimedRobot {
         gyro = new RomiGyro();
         gyro.reset();
 
-        //sparkLeft.setInverted(true);
+        sparkLeft.setInverted(true);*/
         //sparkRight.setInverted(false);
 
 
@@ -55,8 +62,11 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
 
-        //sparkLeft.set(1);
-        //sparkRight.set(1);
+        sparkLeft.set(0);
+        sparkRight.set(0);
+
+        sparkLeft.set(0.5);
+        sparkRight.set(0.5);
 
 //        if (encoder.getDistance() <= 5) {
 //            sparkLeft.set(1);
@@ -66,7 +76,7 @@ public class Robot extends TimedRobot {
 //            sparkLeft.set(0);
 //            //sparkRight.set(0);
 //        }
-
+/*
        if (gyro.getAngleZ() < 88.5)  {
            sparkRight.set(1);
            sparkLeft.set(-1);
@@ -81,7 +91,7 @@ public class Robot extends TimedRobot {
            sparkLeft.set(0);
            sparkRight.set(0);
        }
-
+*/
         /*
         if (dia.get() && dib.get()) {
             sparkRight.set(1);
@@ -108,13 +118,13 @@ public class Robot extends TimedRobot {
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
-
+        CommandScheduler.getInstance().schedule(new DriveAtSpeedCommand(10));
     }
 
     //Runs when teleoperated mode (robot controlled by driver) is first activated
     @Override
     public void teleopInit() {
-
+        CommandScheduler.getInstance().schedule(new DriveAtSpeedCommand(1f));
     }
 
     //Runs when test mode is activated
@@ -127,11 +137,30 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
 
+        CommandScheduler.getInstance().run();
+
     }
 
     //Runs periodically during autonomous mode
     @Override
     public void autonomousPeriodic() {
+
+        //gyro.reset();
+
+        if (gyro.getAngleZ() < 88.5)  {
+            sparkRight.set(1);
+            sparkLeft.set(-1);
+        }
+
+        else if (gyro.getAngleZ() > 91.5)  {
+            sparkRight.set(-1);
+            sparkLeft.set(1);
+        }
+
+        else {
+            sparkLeft.set(0);
+            sparkRight.set(0);
+        }
 
     }
 
