@@ -12,7 +12,7 @@ public class driveatspeedcommand extends CommandBase {
     }
     @Override
     public void initialize() {
-        subsystemsclass.getInstance().setmotors(speed, speed);
+        subsystemsclass.getInstance().setMotors(speed, speed);
     }
     @Override
     public void execute() {

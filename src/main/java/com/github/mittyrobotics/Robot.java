@@ -1,12 +1,12 @@
 package com.github.mittyrobotics;
-
+import com.github.mittyrobotics.commands.driveatspeedcommand;
+import com.github.mittyrobotics.commands.driveatdistancecommand;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import com.github.mittyrobotics.commands.driveatspeedcommand;
-import com.github.mittyrobotics.commands.driveatdistancecommand;
+
 //Java automatically runs this class, and calls the various functions.
 /*
  *  YOUR WIFI MUST BE CONNECTED TO ROMI FOR THIS TO WORK
