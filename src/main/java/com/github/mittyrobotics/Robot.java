@@ -2,9 +2,11 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.commands.DriveAtSpeedCommand;
 import com.github.mittyrobotics.commands.DriveDistanceCommand;
+import com.github.mittyrobotics.commands.TurnCommand;
 import com.github.mittyrobotics.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
 public class Robot extends TimedRobot {
@@ -18,12 +20,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        CommandScheduler.getInstance().schedule(new DriveAtSpeedCommand(0.8f));
     }
 
     @Override
     public void autonomousInit() {
-        CommandScheduler.getInstance().schedule(new DriveDistanceCommand(10, 0.1f));
+        CommandScheduler.getInstance().schedule(
+                new SequentialCommandGroup(
+                    new DriveDistanceCommand(10),
+                        new TurnCommand(90.),
+                    new DriveDistanceCommand(10),
+                        new TurnCommand(90.),
+                    new DriveDistanceCommand(10),
+                        new TurnCommand(90.),
+                    new DriveDistanceCommand(10)
+                )
+        );
     }
 
     @Override

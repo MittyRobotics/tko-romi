@@ -25,7 +25,7 @@ public class DriveAtSpeedCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        DrivetrainSubsystem.getInstance().setMotors(0,0);
     }
 
     @Override

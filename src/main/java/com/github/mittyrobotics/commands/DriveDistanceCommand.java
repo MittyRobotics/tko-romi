@@ -10,6 +10,10 @@ public class DriveDistanceCommand extends CommandBase {
     double threshold;
     PIDController controller;
 
+    public DriveDistanceCommand(double distanceInInches) {
+        this(distanceInInches, 0.1);
+    }
+
     public DriveDistanceCommand(double distanceInInches, double threshold) {
 
         this.distance = distanceInInches;
@@ -21,6 +25,7 @@ public class DriveDistanceCommand extends CommandBase {
     @Override
     public void initialize() {
         controller = new PIDController(0.5, 0.0001, 0.05);
+        controller.setSetpoint(distance);
     }
 
     @Override
@@ -33,7 +38,7 @@ public class DriveDistanceCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        DrivetrainSubsystem.getInstance().setMotors(0,0);
     }
 
     @Override

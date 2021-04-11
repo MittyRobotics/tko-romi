@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.Constants;
+import com.github.mittyrobotics.RomiGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,6 +12,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private Spark sparkLeft, sparkRight;
     private Encoder leftEncoder, rightEncoder;
+
+    private RomiGyro gyro;
 
     private DrivetrainSubsystem() {
     }
@@ -30,6 +33,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         leftEncoder.setDistancePerPulse(1D/Constants.TICKS_PER_INCH);
         rightEncoder.setDistancePerPulse(1D/Constants.TICKS_PER_INCH);
+
+        gyro = new RomiGyro();
+        gyro.reset();
     }
 
     public static DrivetrainSubsystem getInstance() {
@@ -50,6 +56,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public double getRightEncoder() {
         return rightEncoder.getDistance();
+    }
+
+    public double getGyroAngle() {
+        return gyro.getAngleZ();
     }
 
     @Override
