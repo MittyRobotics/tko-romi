@@ -18,22 +18,17 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 Spark SparkLeft, SparkRight;
-DigitalInput digitalInput;
-DigitalInput LeftButton;
-DigitalInput RightButton;
+DigitalInput LeftButton, RightButton;
 
     @Override
     public void robotInit() {
 SparkLeft = new Spark(0);
 SparkRight = new Spark(1);
-digitalInput = new DigitalInput(1);
+DigitalInput LeftButton = new DigitalInput();
+DigitalInput RightButton = new DigitalInput();
 //digitalInput.get(); To get a digital input either true or false
     }
 
-    //Runs periodically during teleoperated mode
-    /*
-     *  WRITE YOUR DRIVE CODE HERE
-     */
     @Override
     public void teleopPeriodic() {
 if (DigitalInput.get(LeftButton) && DigitalInput.get(RightButton)) {
