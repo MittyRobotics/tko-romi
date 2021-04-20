@@ -17,13 +17,17 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
-
-
+Spark SparkLeft, SparkRight;
+DigitalInput digitalInput;
+DigitalInput LeftButton;
+DigitalInput RightButton;
 
     @Override
     public void robotInit() {
-
-
+SparkLeft = new Spark(0);
+SparkRight = new Spark(1);
+digitalInput = new DigitalInput(1);
+//digitalInput.get(); To get a digital input either true or false
     }
 
     //Runs periodically during teleoperated mode
@@ -32,7 +36,26 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+if (DigitalInput.get(LeftButton) && DigitalInput.get(RightButton)) {
+SparkLeft.set(1);
+SparkRight.set(1);
+}
 
+//When both buttons are not pressed, the robot will move backwards
+        if (!DigitalInput.get(LeftButton) && !DigitalInput.get(RightButton)) {
+            SparkLeft.set(-1);
+            SparkRight.set(-1);
+        }
+//When left button is pressed and the right button is not being pressed, the robot will move right
+        if (DigitalInput.get(LeftButton) && !DigitalInput.get(RightButton)) {
+            SparkLeft.set(1);
+            SparkRight.set(-1);
+        }
+//When left button is not being pressed and the right button is pressed, the robot will move right
+        if (!DigitalInput.get(LeftButton) && DigitalInput.get(RightButton)) {
+            SparkLeft.set(-1);
+            SparkRight.set(1);
+        }
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
