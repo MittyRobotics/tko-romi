@@ -1,10 +1,9 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -18,17 +17,16 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
-    Spark sparkLeft, sparkRight;
-    DigitalInput leftButton, rightButton, middleButton;
+    RomiGyro gyro;
+    Spark leftSpark, rightSpark;
 
 
     @Override
     public void robotInit() {
-        sparkLeft = new Spark(3);
-        sparkRight = new Spark(4);
-        leftButton = new DigitalInput(0);
-        rightButton = new DigitalInput(0);
-        middleButton = new DigitalInput(0);
+        gyro = new RomiGyro();
+        leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
+        rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
+        gyro.reset();
     }
 
     //Runs periodically during teleoperated mode
@@ -37,15 +35,18 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        if (leftButton.get() && rightButton.get()) {
-            sparkLeft.set(0.5);
-            sparkRight.set(0.5);
-        } else if (middleButton.get()) {
-            sparkRight.set(0.5);
-        } else if (!leftButton.get() && !rightButton.get() && !middleButton.get()) {
-            sparkLeft.set(0);
-            sparkRight.set(0);
+        double angleZ = gyro.getAngleZ();
+        if (angleZ < 90) {
+            leftSpark.set(0.5);
+            rightSpark.set(-0.5);
+        } else if (angleZ > 90) {
+            leftSpark.set(-.5);
+            rightSpark.set(0.5);
+        } else {
+            leftSpark.set(0);
+            rightSpark.set(0);
         }
+
 
 
 
