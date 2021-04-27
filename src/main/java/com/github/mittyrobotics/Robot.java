@@ -18,22 +18,80 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
+    Encoder leftEncoder;
+    Encoder encoder;
+Spark Spark;
 
+RomiGyro gyro;
+Spark leftSpark, rightSpark;
+//    Spark SparkLeft, SparkRight;
+//    DigitalInput LeftButton, RightButton;
 
     @Override
     public void robotInit() {
+//SparkLeft = new Spark(0);
+//SparkRight = new Spark(1);
+//DigitalInput LeftButton = new DigitalInput();
+//DigitalInput RightButton = new DigitalInput();
+// digitalInput.get(); To get a digital input either true or false
+//        leftEncoder = new Encoder(Constants.LEFT_ENCODER_IDS[0], Constants.LEFT_ENCODER_IDS[1]);
+//        leftEncoder.reset();
+//        leftEncoder.setDistancePerPulse(1./10.); // 1 inch / 10 ticks
+//        leftEncoder.setMinRate(10.); //10 inches / sec
+//        leftEncoder.setReverseDirection(true);
 
+        Spark = new Spark(Constants.SPARK_ID);
+        encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
+        encoder.reset()
+        encoder.setDistancePerPulse(1./256.);
 
+        gyro = new RomiGyro();
+        gyro.reset();
+        leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
+        rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
     }
 
-    //Runs periodically during teleoperated mode
-    /*
-     *  WRITE YOUR DRIVE CODE HERE
-     */
     @Override
     public void teleopPeriodic() {
+//if (DigitalInput.get(LeftButton) && DigitalInput.get(RightButton)) {
+//SparkLeft.set(1);
+//SparkRight.set(1);
+//        double distance = leftEncoder.getDistance();
+//        double rate = leftEncoder.getRate();
+//double xAngle = gyro.getAngleX(); To get angle of the gyro on an axis
 
+        if (encoder.getDistance() < 5) {
+            Spark.set(1);
+        } else {
+            Spark.set(0);
+        }
+
+        double zAngle = gyro.getAngleZ();
+        if (zAngle < 90) {
+            leftSpark.set(-1);
+            rightSpark.set(1);
+    } else {
+            leftSpark.set(0);
+            rightSpark.set(0);
+        }
+
+//When both buttons are not pressed, the robot will move backwards
+//        if (!DigitalInput.get(LeftButton) && !DigitalInput.get(RightButton)) {
+//            SparkLeft.set(-1);
+//            SparkRight.set(-1);
+//        }
+////When left button is pressed and the right button is not being pressed, the robot will move right
+//        if (DigitalInput.get(LeftButton) && !DigitalInput.get(RightButton)) {
+//            SparkLeft.set(1);
+//            SparkRight.set(-1);
+//        }
+////When left button is not being pressed and the right button is pressed, the robot will move right
+//        if (!DigitalInput.get(LeftButton) && DigitalInput.get(RightButton)) {
+//            SparkLeft.set(-1);
+//            SparkRight.set(1);
+//}
     }
+
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
