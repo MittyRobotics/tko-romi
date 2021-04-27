@@ -3,6 +3,7 @@ package com.github.mittyrobotics;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -15,18 +16,24 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
+
     /* Day 1
     Spark sparkLeft, sparkRight;
     DigitalInput left_button, right_button, middle_button;
     */
 
-    /* Day 2 leftEncoder = example variable | encoder and spark = challenge variables */
+    /* Day 2 leftEncoder = example variable | encoder and spark = challenge variables
     Encoder leftEncoder;
     Spark spark;
     Encoder encoder;
 
     RomiGyro gyro;
     Spark leftSpark, rightSpark;
+     */
+
+    PIDController controller;
+    Spark leftSpark, rightSpark;
+    Encoder encoder;
 
     @Override
     public void robotInit() {
@@ -38,6 +45,7 @@ public class Robot extends TimedRobot {
         middle_button = new DigitalInput(2);
          */
 
+        /* Day 2
         leftEncoder = new Encoder(Constants.LEFT_ENCODER_IDS[0], Constants.LEFT_ENCODER_IDS[1]);
         leftEncoder.reset();
         leftEncoder.setDistancePerPulse(1./10.);
@@ -52,6 +60,14 @@ public class Robot extends TimedRobot {
         gyro.reset();
         leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
         rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
+         */
+
+        controller = new PIDController(0.5, 0.0001, 0.2);
+        leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
+        rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
+        encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
+        encoder.setDistancePerPulse(1./Constants.TICKS_PER_INCH);
+        encoder.reset();
     }
 
     //Runs periodically during teleoperated mode
@@ -81,6 +97,7 @@ public class Robot extends TimedRobot {
         }
         */
 
+        /* Day 2
         double distance = leftEncoder.getDistance();
         double rate = leftEncoder.getRate();
         if (encoder.getDistance() >= 5) {
@@ -101,6 +118,14 @@ public class Robot extends TimedRobot {
             leftSpark.set(0);
             rightSpark.set(0);
         }
+         */
+        if (Math.abs(controller.getPositionError()) > 0.2) {
+            leftSpark.set(controller.calculate(encoder.getDistance()));
+            rightSpark.set(controller.calculate(encoder.getDistance()));
+        } else {
+            leftSpark.set(0);
+            rightSpark.set(0);
+        }
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
@@ -112,7 +137,7 @@ public class Robot extends TimedRobot {
     //Runs when teleoperated mode (robot controlled by driver) is first activated
     @Override
     public void teleopInit() {
-
+        controller.setSetpoint(10.);
     }
 
     //Runs when test mode is activated
