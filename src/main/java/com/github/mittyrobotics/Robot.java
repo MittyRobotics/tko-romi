@@ -49,7 +49,6 @@ Spark leftSpark, rightSpark;
         gyro.reset();
         leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
         rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
-        new Spark() = Spark
     }
 
     @Override
