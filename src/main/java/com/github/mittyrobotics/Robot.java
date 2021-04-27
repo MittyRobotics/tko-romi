@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.controller.PIDController;
+
+import java.util.Map;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -19,15 +22,17 @@ public class Robot extends TimedRobot {
 
     DigitalInput leftButton,rightButton,middleButton;
 
-    RomiGyro gyro;
-    Spark leftSpark,rightSpark;
+    PIDController controller;
+    Spark leftSpark, rightSpark;
+    Encoder encoder;
     @Override
     public void robotInit() {
-        gyro=new RomiGyro();
+        controller=new PIDController(0.5,0.01,0.2);
         leftSpark=new Spark(Constants.LEFT_MOTOR_ID);
         rightSpark=new Spark(Constants.RIGHT_MOTOR_ID);
-        gyro.reset();
-
+        encoder=new Encoder(Constants.ENCODER_IDS[0],Constants.ENCODER_IDS[1]);
+        encoder.reset();
+        encoder.setDistancePerPulse(1./256);
     }
 
     //Runs periodically during teleoperated mode
@@ -36,19 +41,15 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        double angleZ=gyro.getAngleZ();
-        if(angleZ<90){
-            leftSpark.set(0.5);
-            rightSpark.set(-0.5);
-        }
-        else if(angleZ>90){
-            leftSpark.set(-0.5);
-            rightSpark.set(0.5);
+        if(controller.getPositionError()>0.2) {
+            rightSpark.set(controller.calculate(encoder.getDistance()));
+            leftSpark.set(controller.calculate(encoder.getDistance()));
         }
         else{
             leftSpark.set(0);
-            rightSpark.set(0);
+            leftSpark.set(1);
         }
+
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
