@@ -31,9 +31,12 @@ public class Robot extends TimedRobot {
     Spark leftSpark, rightSpark;
      */
 
+    /* Day 3
     PIDController controller;
     Spark leftSpark, rightSpark;
     Encoder encoder;
+    */
+
 
     @Override
     public void robotInit() {
@@ -62,14 +65,16 @@ public class Robot extends TimedRobot {
         rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
          */
 
+        /* Day 3
         controller = new PIDController(0.5, 0.0001, 0.2);
         leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
         rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
         encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
         encoder.setDistancePerPulse(1./Constants.TICKS_PER_INCH);
         encoder.reset();
+         */
     }
-
+    
     //Runs periodically during teleoperated mode
     /*
      *  WRITE YOUR DRIVE CODE HERE
@@ -119,6 +124,8 @@ public class Robot extends TimedRobot {
             rightSpark.set(0);
         }
          */
+
+        /* Day 3
         if (Math.abs(controller.getPositionError()) > 0.2) {
             leftSpark.set(controller.calculate(encoder.getDistance()));
             rightSpark.set(controller.calculate(encoder.getDistance()));
@@ -126,6 +133,7 @@ public class Robot extends TimedRobot {
             leftSpark.set(0);
             rightSpark.set(0);
         }
+        */
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
@@ -137,7 +145,8 @@ public class Robot extends TimedRobot {
     //Runs when teleoperated mode (robot controlled by driver) is first activated
     @Override
     public void teleopInit() {
-        controller.setSetpoint(10.);
+        // Day 3
+        // controller.setSetpoint(10.);
     }
 
     //Runs when test mode is activated
