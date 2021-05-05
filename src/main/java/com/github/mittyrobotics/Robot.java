@@ -1,9 +1,14 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.commands.DriveAtSpeedCommand;
+import com.github.mittyrobotics.commands.DriveToDistanceCommand;
+import com.github.mittyrobotics.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -17,16 +22,10 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
-    RomiGyro gyro;
-    Spark leftSpark, rightSpark;
-
 
     @Override
     public void robotInit() {
-        gyro = new RomiGyro();
-        leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
-        rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
-        gyro.reset();
+        DrivetrainSubsystem.getInstance().initHardware();
     }
 
     //Runs periodically during teleoperated mode
@@ -35,32 +34,19 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        double angleZ = gyro.getAngleZ();
-        if (angleZ < 90) {
-            leftSpark.set(0.5);
-            rightSpark.set(-0.5);
-        } else if (angleZ > 90) {
-            leftSpark.set(-.5);
-            rightSpark.set(0.5);
-        } else {
-            leftSpark.set(0);
-            rightSpark.set(0);
-        }
-
-
-
-
+        CommandScheduler.getInstance().schedule(new DriveAtSpeedCommand(0.5));
     }
 
-    //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
+    //Runs when autonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
-
+        CommandScheduler.getInstance().schedule(new DriveToDistanceCommand(10, 0.2));
     }
 
     //Runs when teleoperated mode (robot controlled by driver) is first activated
     @Override
     public void teleopInit() {
+
 
     }
 
@@ -73,6 +59,7 @@ public class Robot extends TimedRobot {
     //Runs whenever the robot is on, periodically: should be used for command schedulers
     @Override
     public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
 
     }
 
