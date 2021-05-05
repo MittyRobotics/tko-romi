@@ -1,9 +1,13 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.commands.DriveAtSpeedCommand;
+import com.github.mittyrobotics.commands.DriveDistanceCommand;
+import com.github.mittyrobotics.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import java.util.ArrayList;
 
@@ -39,6 +43,8 @@ public class Robot extends TimedRobot {
     Encoder encoder;
     **/
 
+
+    /** Day 4
     Spark leftSpark, rightSpark;
 
     Encoder leftEncoder, rightEncoder;
@@ -51,6 +57,9 @@ public class Robot extends TimedRobot {
     PIDController leftController, rightController;
 
     int step;
+     **/
+
+
 
 
     @Override
@@ -89,6 +98,7 @@ public class Robot extends TimedRobot {
         encoder.reset();
         **/
 
+        /** Day 4
         leftSpark = new Spark(Constants.LEFT_MOTOR_ID);
         rightSpark = new Spark(Constants.RIGHT_MOTOR_ID);
         rightSpark.setInverted(true);
@@ -107,6 +117,9 @@ public class Robot extends TimedRobot {
         rightController = new PIDController(7, 0.0000000000001, 0.2);
 
         step = 0;
+         **/
+
+        DrivetrainSubsystem.getInstance().initHardware();
     }
     
     //Runs periodically during teleoperated mode
@@ -169,6 +182,7 @@ public class Robot extends TimedRobot {
         }
         **/
 
+        /** Day 4
         if (step == 0) {
             if (leftEncoder.getDistance() < 10) {
                 leftSpark.set(0.125);
@@ -213,13 +227,16 @@ public class Robot extends TimedRobot {
 
         // leftSpark.set(leftController.calculate(leftEncoder.getDistance()));
         // rightSpark.set(rightController.calculate(rightEncoder.getDistance()));
+         **/
+
+        CommandScheduler.getInstance().schedule(new DriveAtSpeedCommand(0.5));
 
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
-
+        CommandScheduler.getInstance().schedule(new DriveDistanceCommand(10, 0.2));
     }
 
     //Runs when teleoperated mode (robot controlled by driver) is first activated
@@ -229,8 +246,10 @@ public class Robot extends TimedRobot {
          controller.setSetpoint(10.);
          **/
 
+        /** Day 4
         leftController.setSetpoint(10);
         rightController.setSetpoint(10);
+         **/
     }
 
     //Runs when test mode is activated
@@ -242,7 +261,7 @@ public class Robot extends TimedRobot {
     //Runs whenever the robot is on, periodically: should be used for command schedulers
     @Override
     public void robotPeriodic() {
-
+        CommandScheduler.getInstance().run();
     }
 
     //Runs periodically during autonomous mode
