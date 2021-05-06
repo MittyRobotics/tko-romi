@@ -2,12 +2,15 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.commands.DriveAtSpeedCommand;
 import com.github.mittyrobotics.commands.DriveDistanceCommand;
+import com.github.mittyrobotics.commands.TurnAngleCommand;
 import com.github.mittyrobotics.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import java.util.ArrayList;
 
@@ -42,7 +45,6 @@ public class Robot extends TimedRobot {
     Spark leftSpark, rightSpark;
     Encoder encoder;
     **/
-
 
     /** Day 4
     Spark leftSpark, rightSpark;
@@ -117,7 +119,7 @@ public class Robot extends TimedRobot {
         rightController = new PIDController(7, 0.0000000000001, 0.2);
 
         step = 0;
-         **/
+         */
 
         DrivetrainSubsystem.getInstance().initHardware();
     }
@@ -230,13 +232,21 @@ public class Robot extends TimedRobot {
          **/
 
         CommandScheduler.getInstance().schedule(new DriveAtSpeedCommand(0.5));
-
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
-        CommandScheduler.getInstance().schedule(new DriveDistanceCommand(10, 0.2));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                new DriveDistanceCommand(10., 0.2),
+                new TurnAngleCommand(90., 0.2),
+                new DriveDistanceCommand(10., 0.2),
+                new TurnAngleCommand(90., 0.2),
+                new DriveDistanceCommand(10., 0.2),
+                new TurnAngleCommand(90., 0.2),
+                new DriveDistanceCommand(10., 0.2) ,
+                new TurnAngleCommand(90., 0.2)
+        ));
     }
 
     //Runs when teleoperated mode (robot controlled by driver) is first activated

@@ -1,17 +1,21 @@
 package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.Constants;
+import com.github.mittyrobotics.RomiGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.lang.invoke.WrongMethodTypeException;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     private static DrivetrainSubsystem instance;
 
     private Spark leftSpark, rightSpark;
     private Encoder leftEncoder, rightEncoder;
-    private PIDController controller, rightController;
+    private PIDController controller;
+    private RomiGyro gyro;
 
     private DrivetrainSubsystem() {}
 
@@ -32,6 +36,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         leftEncoder.reset();
         rightEncoder.reset();
         controller = new PIDController(0.2, 0, 0);
+        gyro = new RomiGyro();
+        gyro.reset();
     }
 
     public void moveStraight() {
@@ -55,5 +61,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public PIDController getController() {
         return controller;
+    }
+
+    public RomiGyro getGyro() {
+        return gyro;
     }
 }
