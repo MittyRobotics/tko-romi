@@ -1,8 +1,10 @@
 package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.Constants;
+import com.github.mittyrobotics.RomiGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -10,12 +12,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private Spark leftSpark, rightSpark;
     private Encoder leftEncoder, rightEncoder;
+    private RomiGyro gyro;
 
     private DrivetrainSubsystem() {
     }
     public static DrivetrainSubsystem getInstance() {
         if (instance==null) {
-            return new DrivetrainSubsystem();
+            instance = new DrivetrainSubsystem();
         }
         return instance;
     }
@@ -30,11 +33,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightEncoder.reset();
         leftEncoder.setDistancePerPulse(1/Constants.TICKS_PER_INCH);
         rightEncoder.setDistancePerPulse(1/Constants.TICKS_PER_INCH);
-    }
 
-    public void moveStraight() {
-        leftSpark.set(1);
-        rightSpark.set(1);
+        gyro = new RomiGyro();
+        gyro.reset();
     }
 
     public void setSparkSpeed(double left, double right) {
@@ -43,7 +44,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-
     }
 
     public double getLeftDistance() {
@@ -51,6 +51,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
     public double getRightDistance() {
         return rightEncoder.getDistance();
+    }
+
+    // get gyro z axis
+    public double getZAxis() {
+        return gyro.getAngleZ();
     }
 
 

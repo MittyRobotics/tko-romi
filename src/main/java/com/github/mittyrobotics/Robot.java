@@ -1,6 +1,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.commands.DriveAtSpeedCommand;
+import com.github.mittyrobotics.commands.DriveToAngleCommand;
 import com.github.mittyrobotics.commands.DriveToDistanceCommand;
 import com.github.mittyrobotics.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Encoder;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -40,7 +42,16 @@ public class Robot extends TimedRobot {
     //Runs when autonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
-        CommandScheduler.getInstance().schedule(new DriveToDistanceCommand(10, 0.2));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                new DriveToDistanceCommand(10, 0.2),
+                new DriveToAngleCommand(90, 0.2),
+                new DriveToDistanceCommand(10, 0.2),
+                new DriveToAngleCommand(90, 0.2),
+                new DriveToDistanceCommand(10, 0.2),
+                new DriveToAngleCommand(90, 0.2),
+                new DriveToDistanceCommand(10, 0.2),
+                new DriveToAngleCommand(90, 0.2)
+                ));
     }
 
     //Runs when teleoperated mode (robot controlled by driver) is first activated
