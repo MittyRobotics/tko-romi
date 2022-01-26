@@ -11,6 +11,7 @@ public class Constants {
     public static final int A_BUTTON_ID = 0;
     public static final int B_BUTTON_ID = 1;
     public static final int C_BUTTON_ID = 2;
+    public static final int D_BUTTON_ID = 3;
     public static final int GREEN_LED_ID = 1;
     public static final int RED_LED_ID = 2;
     public static final int YELLOW_LED_ID = 3;
