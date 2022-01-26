@@ -1,10 +1,9 @@
 package com.github.mittyrobotics;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.XboxController;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -18,12 +17,29 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
+    DigitalInput forwardButton;
+    DigitalInput backwardButton;
+    DigitalInput leftButton;
+    DigitalInput rightButton;
 
+    Spark sparkLeft;
+    Spark sparkRight;
+
+    XboxController controller;
+    RomiGyro gyro = new RomiGyro();
 
     @Override
     public void robotInit() {
+        forwardButton = new DigitalInput(0);
+        backwardButton = new DigitalInput(1);
+        leftButton = new DigitalInput(2);
+        rightButton = new DigitalInput(3);
 
+        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
 
+        controller = new XboxController(0);
+        gyro = new RomiGyro();
     }
 
     //Runs periodically during teleoperated mode
@@ -32,7 +48,38 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-
+        if(forwardButton.get()) {
+            sparkLeft.set(1);
+            sparkRight.set(1);
+        }
+        if(backwardButton.get()) {
+            sparkLeft.set(-1):
+            sparkRight.set(-1);
+        }
+        if(rightButton.get()) {
+            sparkLeft.set(1);
+            sparkRight.set(-1);
+        }
+        if(leftButton.get()) {
+            sparkLeft.set(-1);
+            sparkRight.set(1);
+        }
+        if(controller.getAButton()) {
+            sparkLeft.set(1);
+            sparkRight.set(-1);
+        }
+        /*
+        if (controller.getAButton()) {
+            while (gyro.getAngleZ() < 45) {
+                sparkLeft.set(-0.5);
+                sparkRight.set(0.5);
+            }
+        }
+         */
+        if (controller.getAButton() && gyro.getAngleZ() < 45) {
+            sparkRight.set(0.5);
+            sparkLeft.set(-0.5);
+        }
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
