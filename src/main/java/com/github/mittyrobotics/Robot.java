@@ -40,6 +40,11 @@ public class Robot extends TimedRobot {
 
         controller = new XboxController(0);
         gyro = new RomiGyro();
+
+        boolean A_clicked = controller.getAButtonPressed();
+        boolean A_released = controller.getAButtonReleased();
+        boolean B_clicked = controller.getBButtonPressed();
+        boolean B_released = controller.getBButtonReleased();
     }
 
     //Runs periodically during teleoperated mode
@@ -48,26 +53,27 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        if(forwardButton.get()) {
-            sparkLeft.set(1);
-            sparkRight.set(1);
-        }
-        if(backwardButton.get()) {
-            sparkLeft.set(-1):
-            sparkRight.set(-1);
-        }
-        if(rightButton.get()) {
-            sparkLeft.set(1);
-            sparkRight.set(-1);
-        }
-        if(leftButton.get()) {
-            sparkLeft.set(-1);
-            sparkRight.set(1);
-        }
-        if(controller.getAButton()) {
-            sparkLeft.set(1);
-            sparkRight.set(-1);
-        }
+        if(controller.getAButtonPressed()) {
+            if (forwardButton.get()) {
+                sparkLeft.set(1);
+                sparkRight.set(1);
+            }
+            if (backwardButton.get()) {
+                sparkLeft.set(-1);
+                sparkRight.set(-1);
+            }
+            if (rightButton.get()) {
+                sparkLeft.set(1);
+                sparkRight.set(-1);
+            }
+            if (leftButton.get()) {
+                sparkLeft.set(-1);
+                sparkRight.set(1);
+            }
+            if (controller.getAButton()) {
+                sparkLeft.set(1);
+                sparkRight.set(-1);
+            }
         /*
         if (controller.getAButton()) {
             while (gyro.getAngleZ() < 45) {
@@ -76,9 +82,15 @@ public class Robot extends TimedRobot {
             }
         }
          */
-        if (controller.getAButton() && gyro.getAngleZ() < 45) {
-            sparkRight.set(0.5);
-            sparkLeft.set(-0.5);
+            if (controller.getAButton() && gyro.getAngleZ() < 45) {
+                sparkRight.set(0.5);
+                sparkLeft.set(-0.5);
+            }
+        }
+
+        if(controller.getBButtonPressed()) {
+            sparkRight.set(0);
+            sparkLeft.set(0);
         }
     }
 
