@@ -12,19 +12,23 @@ public class Robot extends TimedRobot {
     DigitalInput digitalInput2;
     DigitalInput digitalInput3;
 
-
-
-
-
     Spark SparkLeft, SparkRight;
+
+    boolean clicked;
 
     @Override
     public void robotInit() {
 
+        //initialize sparks
+
         SparkLeft = new Spark(0);
         SparkRight = new Spark(1);
 
+        //inverting wheels
+
         SparkLeft.setInverted(true);
+
+        //digital inputs (on the romi)
 
 
 
@@ -49,7 +53,7 @@ public class Robot extends TimedRobot {
 
 
         //forward
-        digitalInput2 = new DigitalInput(2);
+        digitalInput2 = new DigitalInput(0);
 
 
 
@@ -72,34 +76,129 @@ public class Robot extends TimedRobot {
         }
 
 
+    //initialization place
+
+
 
     RomiGyro gyro;
+
+    Joystick joystick = new Joystick(0);
 
 
     XboxController controller = new XboxController(0);
 
 
+
+
     @Override
     public void teleopPeriodic() {
-        if (digitalInput4.get())
+        //starts tank drive
+        if (controller.getAButtonPressed()){
+            clicked = true;
+        }
+        //stops tank drive
+        if (controller.getBButtonPressed()){
+            clicked = false;
+        }
+        //tank drive
+        if (clicked){
+            SparkLeft.set(controller.getY(GenericHID.Hand.kLeft));
+            SparkRight.set(controller.getY(GenericHID.Hand.kRight));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Robot goes forward and backward
+
+        while(controller.getY(GenericHID.Hand.kLeft) > 0) {
             SparkLeft.set(1);
+        }
+
+        while(controller.getY(GenericHID.Hand.kLeft) < 0) {
             SparkRight.set(-1);
+        }
 
-        if (digitalInput1.get())
-            SparkLeft.set(-1);
+        //Robot turns left and right
+
+        while(controller.getX(GenericHID.Hand.kRight) > 0) {
+            SparkRight.set(-1);
+            SparkLeft.set(1);
+        }
+
+        while(controller.getX(GenericHID.Hand.kRight) < 0) {
             SparkRight.set(1);
+            SparkLeft.set(-1);
+        }
 
-        if (digitalInput2.get())
+
+        //Robot goes forward and backward depending on button pressed
+
+        while(controller.getAButtonPressed() == true) {
             SparkLeft.set(1);
             SparkRight.set(1);
 
+            if (controller.getBButtonPressed() == true) {
+                SparkLeft.set(0);
+                SparkRight.set(0);
+            }
+
+        }
+
+        //one joystick controls one spark
+
+        while(controller.getY(GenericHID.Hand.kLeft) > 1){
+            SparkLeft.set(controller.getY(GenericHID.Hand.kLeft));
+        }
+
+        while(controller.getY(GenericHID.Hand.kRight) > 1){
+            SparkRight.set(controller.getY(GenericHID.Hand.kRight));
+        }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
+        //getting the x and y-axis for the joysticks
+
+        joystick.getX();
+        joystick.getY();
+
+ //If you press a button on the controller, go forward/backward
 
         if (controller.getAButton())
-
-
 
             while (gyro.getAngleZ() < 45) {
                 SparkLeft.set(1);
@@ -112,12 +211,14 @@ public class Robot extends TimedRobot {
                 SparkRight.set(-1);
             }
 
+*/
+
+
 
 
 
     }
 
-    //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
 
@@ -125,6 +226,48 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+
+        //Joystick joystick things
+
+        joystick.getX();
+        joystick.getY();
+
+        if (joystick.getX() > 0){
+            SparkLeft.set(1);
+        }
+
+        if (joystick.getX() < 0){
+            SparkRight.set(1);
+        }
+
+        if (joystick.getY() > 0){
+            SparkLeft.set(1);
+            SparkRight.set(1);
+        }
+
+        if (joystick.getX() < 0){
+            SparkRight.set(-1);
+            SparkLeft.set(-1);
+        }
+
+
+
+
+
+        //If you press a button that is on the robot
+        if (digitalInput3.get())
+            SparkLeft.set(1);
+            SparkRight.set(-1);
+
+        if (digitalInput1.get())
+            SparkLeft.set(-1);
+            SparkRight.set(1);
+
+        if (digitalInput2.get())
+            SparkLeft.set(1);
+            SparkRight.set(1);
+
+
 
     }
 
