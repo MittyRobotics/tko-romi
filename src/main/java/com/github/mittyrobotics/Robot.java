@@ -1,10 +1,8 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -19,6 +17,11 @@ public class Robot extends TimedRobot {
      */
     Spark SparkLeft, SparkRight;
     XboxController controller = new XboxController(0);
+    PIDController controller = new PIDController();
+    TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
+
+
+
 
 
 
@@ -47,7 +50,7 @@ public class Robot extends TimedRobot {
         double y2 = controller.getY(GenericHID.Hand.kRight);
         double x = controller.getX(GenericHID.Hand.kLeft);
         double x2 = controller.getX(GenericHID.Hand.kRight);
-        //forward command
+        //forward command\
         if (y > 0 && y <= 1) {
             if (y2 > 0 && y2 <= 1) {
                 // go forward spark commands
@@ -79,6 +82,18 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
+        controller.setSetpoint(15*TICKS_PER_INCH);
+        double output = controller.calculate(encoder.getPosition());
+        spark.set(output);
+
+        double FEED_FORWARD = 1.0/MAX_VELOCITY
+        spark.set(10*FEED_FORWARD);
+
+        controller.setSetpoint(10);
+        double output = controller.calculate(encoder.getVelocity()*10);
+        spark.set(10*FEED_FORWARD + output);
+
+
 
     }
 
