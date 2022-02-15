@@ -3,6 +3,7 @@ package com.github.mittyrobotics;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.Joystick.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 
 
 public class Robot extends TimedRobot {
@@ -16,8 +17,11 @@ public class Robot extends TimedRobot {
 
     boolean clicked;
 
+
     @Override
     public void robotInit() {
+        TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
+        PIDController controller = new PIDController();
 
         //initialize sparks
 
@@ -90,8 +94,23 @@ public class Robot extends TimedRobot {
 
 
 
+
+
     @Override
     public void teleopPeriodic() {
+
+
+
+
+
+
+
+
+
+
+
+
+        
         //starts tank drive
         if (controller.getAButtonPressed()){
             clicked = true;
@@ -188,9 +207,6 @@ public class Robot extends TimedRobot {
 
 
 
-
-        /*
-
         //getting the x and y-axis for the joysticks
 
         joystick.getX();
@@ -211,7 +227,7 @@ public class Robot extends TimedRobot {
                 SparkRight.set(-1);
             }
 
-*/
+
 
 
 
