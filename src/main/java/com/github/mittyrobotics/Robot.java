@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+
+import static com.github.mittyrobotics.Constants.TICKS_PER_INCH;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -16,82 +20,31 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
+    TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
+    TrapezoidProfile.State end = new TrapezoidProfile.State(15 * TICKS_PER_INCH, 0);
+    TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+    TrapezoidProfile profile = new TrapezoidProfile(constraints, end, start);
+    TrapezoidProfile.State profileOutput = profile.calculate(2.0);
+    PIDController controller = new PIDController(1, 1, 1);
+    Spark SparkLeft;
+    Spark SparkRight;
 
-    DigitalInput forwardButton;
-    DigitalInput backwardButton;
-    DigitalInput leftButton;
-    DigitalInput rightButton;
-
-    Spark sparkLeft;
-    Spark sparkRight;
-
-    XboxController controller;
-    RomiGyro gyro = new RomiGyro();
 
     @Override
     public void robotInit() {
-        forwardButton = new DigitalInput(0);
-        backwardButton = new DigitalInput(1);
-        leftButton = new DigitalInput(2);
-        rightButton = new DigitalInput(3);
+        //Runs periodically during teleoperated mode
+        /*
+         *  WRITE YOUR DRIVE CODE HERE
+         */
+        SparkLeft = new Spark(0);
+        SparkRight = new Spark(1);
+        for (profileOutput < ) {
 
-        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
-        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
-
-        controller = new XboxController(0);
-        gyro = new RomiGyro();
-
-        boolean A_clicked = controller.getAButtonPressed();
-        boolean A_released = controller.getAButtonReleased();
-        boolean B_clicked = controller.getBButtonPressed();
-        boolean B_released = controller.getBButtonReleased();
+        }
     }
-
-    //Runs periodically during teleoperated mode
-    /*
-     *  WRITE YOUR DRIVE CODE HERE
-     */
     @Override
     public void teleopPeriodic() {
-        if(controller.getAButtonPressed()) {
-            if (forwardButton.get()) {
-                sparkLeft.set(1);
-                sparkRight.set(1);
-            }
-            if (backwardButton.get()) {
-                sparkLeft.set(-1);
-                sparkRight.set(-1);
-            }
-            if (rightButton.get()) {
-                sparkLeft.set(1);
-                sparkRight.set(-1);
-            }
-            if (leftButton.get()) {
-                sparkLeft.set(-1);
-                sparkRight.set(1);
-            }
-            if (controller.getAButton()) {
-                sparkLeft.set(1);
-                sparkRight.set(-1);
-            }
-        /*
-        if (controller.getAButton()) {
-            while (gyro.getAngleZ() < 45) {
-                sparkLeft.set(-0.5);
-                sparkRight.set(0.5);
-            }
-        }
-         */
-            if (controller.getAButton() && gyro.getAngleZ() < 45) {
-                sparkRight.set(0.5);
-                sparkLeft.set(-0.5);
-            }
-        }
 
-        if(controller.getBButtonPressed()) {
-            sparkRight.set(0);
-            sparkLeft.set(0);
-        }
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
