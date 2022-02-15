@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -18,12 +19,30 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
+    Spark sparkLeft, sparkRight;
+    PIDController controller;
 
+    TrapezoidProfile.State start;
+    TrapezoidProfile.State end;
+    TrapezoidProfile.Constraints constraints;
+    TrapezoidProfile profile;
+    TrapezoidProfile.State profileOutput;
+
+    Encoder encoder;
 
     @Override
     public void robotInit() {
+        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
 
+        start = new TrapezoidProfile.State(0, 0);
+        end = new TrapezoidProfile.State(1.0, 0);
+        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+        profile = new TrapezoidProfile(constraints, end, start);
+        profileOutput = profile.calculate(2.0);
 
+        controller = new PIDController(kp, ki, kd);
+        controller.setSetpoint(5*Constants.TICKS_PER_INCH);
     }
 
     //Runs periodically during teleoperated mode
@@ -32,7 +51,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-
+        double output = controller.calculate(encoder.getVelocity()*10);
+        sparkLeft.set(output);
+        sparkRight.set(output);
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
