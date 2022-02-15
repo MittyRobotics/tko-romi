@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.Joystick.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import org.w3c.dom.ls.LSOutput;
 
 
 public class Robot extends TimedRobot {
@@ -84,6 +85,7 @@ public class Robot extends TimedRobot {
 
 
 
+    RomiGyro gyro;
     RomiGyro gyro;
 
     Joystick joystick = new Joystick(0);
