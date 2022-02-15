@@ -1,7 +1,7 @@
 package com.github.mittyrobotics;
-
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -17,6 +17,8 @@ public class Robot extends TimedRobot {
     DigitalInput input4;
     XboxController controller;
     RomiGyro gyro;
+    boolean clicked;
+    boolean released;
     //Runs when the robot is first started up and should be used for any initialization code
     /*
      *  INITIALIZE CLASSES HERE
@@ -35,6 +37,12 @@ public class Robot extends TimedRobot {
         input4 = new DigitalInput(3);
         controller =  new XboxController(0);
         gyro = new RomiGyro();
+        clicked = controller.getAButtonPressed();
+        released = controller.getAButtonReleased();
+        TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
+        TrapezoidProfile.State end = new TrapezoidProfile.State(1.0, 0);
+        TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+        TrapezoidProfile profile = new TrapezoidProfile(constraints, end, start);
 
 
     }
@@ -45,6 +53,12 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        
+        TrapezoidProfile.State profileOutput = profile.calculate(2.0);
+
+        if(clicked==false){
+            clicked=false;
+        }
         if(digitalInput1.get()) {
             SparkLeft.set(0);
             SparkRight.set(1);
@@ -68,10 +82,16 @@ public class Robot extends TimedRobot {
             }
         }
         */
+        if(clicked){
+            SparkLeft.set(controller.getY(GenericHID.Hand.kLeft));
+            SparkRight.set(controller.getY(GenericHID.Hand.kRight));
+        }
         if(controller.getAButton() && gyro.getAngleZ() <= 45){
             SparkLeft.set(-0.5);
             SparkRight.set(0.5);
         }
+
+
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
