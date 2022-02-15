@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
     Encoder encoder;
 
-    @Override
+    @Override //test
     public void robotInit() {
         sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
         sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
