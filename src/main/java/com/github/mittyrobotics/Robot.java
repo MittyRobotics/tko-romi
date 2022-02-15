@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -17,12 +18,20 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
+    TrapezoidProfile.State start;
+    TrapezoidProfile.State end;
+
+
+
 
 
 
     @Override
     public void robotInit() {
-
+        state = new TrapezoidProfile.State(0,0);
+        end = new TrapezoidProfile.State(1.0,0);
+        TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(0.2,0.2);
+        
 
     }
 
