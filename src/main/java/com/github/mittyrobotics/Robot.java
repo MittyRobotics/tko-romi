@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 public class Robot extends TimedRobot {
 
     Spark SparkLeft, SparkRight;
-    DigitalInput digitalInput1;
+        DigitalInput digitalInput1;
     DigitalInput input2;
     DigitalInput input3;
     DigitalInput input4;
