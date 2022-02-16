@@ -20,15 +20,10 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
-    TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
-    TrapezoidProfile.State end = new TrapezoidProfile.State(15 * TICKS_PER_INCH, 0);
-    TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
-    TrapezoidProfile profile = new TrapezoidProfile(constraints, end, start);
-    TrapezoidProfile.State profileOutput = profile.calculate(2.0);
-    PIDController controller = new PIDController(1, 1, 1);
     Spark SparkLeft;
     Spark SparkRight;
-
+    DigitalInput ForwardButton;
+    DigitalInput LeftButton;
 
     @Override
     public void robotInit() {
@@ -36,10 +31,19 @@ public class Robot extends TimedRobot {
         /*
          *  WRITE YOUR DRIVE CODE HERE
          */
-        SparkLeft = new Spark(0);
-        SparkRight = new Spark(1);
-        for (profileOutput < ) {
+        ForwardButton = new DigitalInput(0);
+        LeftButton = new DigitalInput(1);
+        SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
+        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
 
+        if (ForwardButton.get()) {
+            SparkRight.set(0.5);
+            SparkLeft.set(0.5);
+        }
+
+        if (LeftButton.get()) {
+            SparkRight.set(0.5);
+            SparkLeft.set(-0.5);
         }
     }
     @Override
@@ -83,3 +87,4 @@ public class Robot extends TimedRobot {
 
     }
 }
+
