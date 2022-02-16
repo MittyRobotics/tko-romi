@@ -19,10 +19,21 @@ public class Robot extends TimedRobot {
     boolean clicked;
 
 
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public void robotInit() {
         TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
-        PIDController controller = new PIDController();
+
 
         //initialize sparks
 
@@ -86,7 +97,6 @@ public class Robot extends TimedRobot {
 
 
     RomiGyro gyro;
-    RomiGyro gyro;
 
     Joystick joystick = new Joystick(0);
 
@@ -100,7 +110,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-
 
 
 
