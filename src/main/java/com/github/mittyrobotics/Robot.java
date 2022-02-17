@@ -18,21 +18,22 @@ public class Robot extends TimedRobot {
 
     boolean clicked;
 
-
-
-
-
-
-
-
-
-
-
+    TrapezoidProfile.State start;
+    TrapezoidProfile.State end;
+    TrapezoidProfile.Constraints constraints;
+    TrapezoidProfile profile;
+    int counter = 0;
+    PIDController controller = new PIDController(kp, ki, kd);
+    Encoder encoder;
 
 
     @Override
     public void robotInit() {
-        TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
+        start = new TrapezoidProfile.State(0, 0);
+        end = new TrapezoidProfile.State(1, 0);
+        constraints = new TrapezoidProfile.Constraints(0.2,0.2);
+        profile = new TrapezoidProfile(constraints, end, start);
+        encoder = new Encoder(Constants.Encoder_IDS[0], Constants.Encoder_IDS[1]));
 
 
         //initialize sparks
@@ -110,6 +111,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
+        TrapezoidProfile.State profileOutput = profile.calculate(0.01*counter);
+        controller.setSetpoint(profileOutput.position);
+        counter++;double output = controller.calculate(encoder.getPosition());
+        Spark.set(output);
 
 
 
@@ -121,7 +126,11 @@ public class Robot extends TimedRobot {
 
 
 
-        
+
+
+
+
+
         //starts tank drive
         if (controller.getAButtonPressed()){
             clicked = true;
