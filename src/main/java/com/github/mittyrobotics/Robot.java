@@ -23,8 +23,13 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
-
-
+    TrapezoidProfile.State start;
+    TrapezoidProfile.State end;
+    TrapezoidProfile.Constraints constraints;
+    TrapezoidProfile profile;
+    int counter;
+    PIDController control  = new PIDController(kp, ki, kd);
+    Encoder encoder;
 
     @Override
     public void robotInit() {
@@ -39,10 +44,11 @@ public class Robot extends TimedRobot {
         gyro = new RomiGyro();
         clicked = controller.getAButtonPressed();
         released = controller.getAButtonReleased();
-        TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
-        TrapezoidProfile.State end = new TrapezoidProfile.State(1.0, 0);
-        TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
-        TrapezoidProfile profile = new TrapezoidProfile(constraints, end, start);
+         start = new TrapezoidProfile.State(0, 0);
+         end = new TrapezoidProfile.State(1.0, 0);
+         constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+         profile = new TrapezoidProfile(constraints, end, start);
+         encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
 
 
     }
@@ -54,8 +60,12 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         
-        TrapezoidProfile.State profileOutput = profile.calculate(2.0);
-
+        TrapezoidProfile.State profileOutput = profile.calculate(0.02*counter);
+        control.setSetpoint(profileOutput.position);
+        double output = control.calculate(encoder.getDistance());
+        SparkLeft.set(output);
+        SparkRight.set(output);
+        counter++;
         if(clicked==false){
             clicked=false;
         }
