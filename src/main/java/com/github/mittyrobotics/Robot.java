@@ -1,10 +1,13 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+
+import javax.swing.plaf.nimbus.State;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -19,10 +22,8 @@ public class Robot extends TimedRobot {
      */
 
 
-
     @Override
     public void robotInit() {
-
 
     }
 
@@ -32,6 +33,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+
 
     }
 
