@@ -1,9 +1,6 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 
@@ -20,34 +17,43 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
-    Spark SparkLeft;
-    Spark SparkRight;
-    DigitalInput ForwardButton;
-    DigitalInput LeftButton;
+    TrapezoidProfile.State start;
+    TrapezoidProfile.State end;
+    TrapezoidProfile.Constraints constraints;
+    TrapezoidProfile profile;
+    TrapezoidProfile.State profileOutput;
+    Spark sparkRight;
+    Spark sparkLeft;
+    Talon talon;
+    PIDController controller = new PIDController(kp, ki, kd);
+
 
     @Override
     public void robotInit() {
-        //Runs periodically during teleoperated mode
-        /*
-         *  WRITE YOUR DRIVE CODE HERE
-         */
-        ForwardButton = new DigitalInput(0);
-        LeftButton = new DigitalInput(1);
-        SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
-        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
 
-        if (ForwardButton.get()) {
-            SparkRight.set(0.5);
-            SparkLeft.set(0.5);
-        }
+        start = new TrapezoidProfile.State(0,0);
+        end = new TrapezoidProfile.State(1,0);
+        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+        profile = new TrapezoidProfile(constraints, start, end);
+        profileOutput = profile.calculate(1.0);
+        talon = new Talon(0);
 
-        if (LeftButton.get()) {
-            SparkRight.set(0.5);
-            SparkLeft.set(-0.5);
-        }
+
     }
     @Override
     public void teleopPeriodic() {
+
+        double encoder = talon.getSpeed();
+
+        double FEED_FORWARD = 1.0/constraints.maxVelocity;
+        sparkLeft.set(10 * FEED_FORWARD);
+        sparkRight.set(10 * FEED_FORWARD);
+
+        controller.setSetpoint(15 * TICKS_PER_INCH);
+        double output = controller.calculate(encoder * 10);
+
+        sparkLeft.set(10 * FEED_FORWARD + output);
+        sparkRight.set(10 * FEED_FORWARD + output);
 
     }
 

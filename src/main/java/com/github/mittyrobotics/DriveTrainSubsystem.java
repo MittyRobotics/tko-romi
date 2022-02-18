@@ -1,46 +1,40 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveTrainSubsystem extends Robot {
+public class DriveTrainSubsystem extends SubsystemBase {
+    //declare stuff here
+    public static DriveTrainSubsystem instance = null;
 
-    public void initialize() {
-        //Runs when you call the command
-        Spark SparkLeft;
-        Spark SparkRight;
-        DigitalInput ForwardButton;
-        DigitalInput LeftButton;
-
-        ForwardButton = new DigitalInput(0);
-        LeftButton = new DigitalInput(1);
-        SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
-        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+    public static DriveTrainSubsystem getInstance() {
+        if (instance == null) {
+            instance = new DriveTrainSubsystem();
+        }
+        return instance;
     }
 
-    public void execute() {
-        //Runs periodically
-        if (ForwardButton.get()) {
-            SparkRight.set(0.5);
-            SparkLeft.set(0.5);
-        }
+    Spark sparkLeft, sparkRight;
 
-        if (LeftButton.get()) {
-            SparkRight.set(0.5);
-            SparkLeft.set(-0.5);
 
-        }
+    public void initHardware() {
+        //initialize stuff here
+        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
+    }
 
-        public boolean isFinished() {
-            //Decides if command is done
-        }
 
-        public void end (boolean interrupted){
-            //Runs once at the end
-        }
+    public void setSparkLeft(double val) {
+        sparkLeft.set(val);
+    }
+
+    public void setSparkRight(double val) {
+        sparkRight.set(val);
+    }
+
+    public void sparkLeft(double y) {
+    }
+
+    public void sparkRight(double x) {
     }
 }
