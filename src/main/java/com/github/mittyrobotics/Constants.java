@@ -19,4 +19,5 @@ public class Constants {
     public static final int[] ENCODER_IDS = {1,2};
 
 
+    public static int[] Encoder_IDS;
 }

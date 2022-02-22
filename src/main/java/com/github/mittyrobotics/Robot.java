@@ -7,21 +7,17 @@ import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import org.w3c.dom.ls.LSOutput;
 
 
+
 public class Robot extends TimedRobot {
 
-    DigitalInput digitalInput4;
-    DigitalInput digitalInput1;
-    DigitalInput digitalInput2;
-    DigitalInput digitalInput3;
 
     Spark SparkLeft, SparkRight;
 
-    boolean clicked;
 
-    TrapezoidProfile.State start;
-    TrapezoidProfile.State end;
-    TrapezoidProfile.Constraints constraints;
-    TrapezoidProfile profile;
+    TrapezoidProfile.State start; //start variable from type trapezoidprofile.state
+    TrapezoidProfile.State end; //end var
+    TrapezoidProfile.Constraints constraints; //constraints variable .constraints
+    TrapezoidProfile profile; //profile from trapezoidprofile
     int counter = 0;
     double kp = 0.0, ki = 0.0, kd = 0.0;
     PIDController controller = new PIDController(kp, ki, kd);
@@ -34,7 +30,7 @@ public class Robot extends TimedRobot {
         end = new TrapezoidProfile.State(1, 0);
         constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
         profile = new TrapezoidProfile(constraints, end, start);
-        //encoder = new Encoder(Constants.Encoder_IDS[0], Constants.Encoder_IDS[1]));
+        encoder = new Encoder(Constants.Encoder_IDS[0], Constants.Encoder_IDS[1]);
 
 
         //initialize sparks
@@ -46,52 +42,21 @@ public class Robot extends TimedRobot {
 
         SparkLeft.setInverted(true);
 
-        //digital inputs (on the romi)
 
+        RomiGyro gyro;
 
-        digitalInput4 = new DigitalInput(4);
+        Joystick joystick = new Joystick(0);
 
-        if (digitalInput4.get())
-            SparkLeft.set(1);
-        SparkRight.set(-1);
-
-
-        digitalInput1 = new DigitalInput(1);
-
-        if (digitalInput1.get())
-            SparkLeft.set(-1);
-        SparkRight.set(1);
-
-
-        //forward
-        digitalInput2 = new DigitalInput(0);
-
-
-        //back
-        digitalInput3 = new DigitalInput(3);
-
-        if (digitalInput3.get())
-            SparkLeft.set(-1);
-        SparkRight.set(-1);
-
+    }
+        @Override
+        public void teleopPeriodic() {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter);
+            controller.setSetpoint(profileOutput.position);
+            double output = controller.calculate(encoder.getDistance());
+            counter++;
+            SparkLeft.set(output);
+            SparkRight.set(output);
+        }
 
     }
 
-
-    //initialization place
-
-
-    //   RomiGyro gyro;
-
-    //   Joystick joystick = new Joystick(0);
-
-
-    @Override
-    public void teleopPeriodic() {
-        TrapezoidProfile.State profileOutput = profile.calculate(0.01 * counter);
-        controller.setSetpoint(profileOutput.position);
-        //counter++;double output = controller.calculate(encoder.getPosition());
-        //Spark.set(output);
-    }
-
-}
