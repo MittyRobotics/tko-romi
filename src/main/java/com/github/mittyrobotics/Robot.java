@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
     TrapezoidProfile.Constraints constraints;
     TrapezoidProfile profile;
     int counter = 0;
+    double kp = 0.0, ki = 0.0, kd = 0.0;
     PIDController controller = new PIDController(kp, ki, kd);
     Encoder encoder;
 
@@ -31,9 +32,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         start = new TrapezoidProfile.State(0, 0);
         end = new TrapezoidProfile.State(1, 0);
-        constraints = new TrapezoidProfile.Constraints(0.2,0.2);
+        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
         profile = new TrapezoidProfile(constraints, end, start);
-        encoder = new Encoder(Constants.Encoder_IDS[0], Constants.Encoder_IDS[1]));
+        //encoder = new Encoder(Constants.Encoder_IDS[0], Constants.Encoder_IDS[1]));
 
 
         //initialize sparks
@@ -48,33 +49,22 @@ public class Robot extends TimedRobot {
         //digital inputs (on the romi)
 
 
-
-
         digitalInput4 = new DigitalInput(4);
 
         if (digitalInput4.get())
             SparkLeft.set(1);
-            SparkRight.set(-1);
-
-
+        SparkRight.set(-1);
 
 
         digitalInput1 = new DigitalInput(1);
 
         if (digitalInput1.get())
             SparkLeft.set(-1);
-            SparkRight.set(1);
-
-
-
+        SparkRight.set(1);
 
 
         //forward
         digitalInput2 = new DigitalInput(0);
-
-
-
-
 
 
         //back
@@ -82,252 +72,26 @@ public class Robot extends TimedRobot {
 
         if (digitalInput3.get())
             SparkLeft.set(-1);
-            SparkRight.set(-1);
+        SparkRight.set(-1);
 
 
-
-
-
-
-
-        }
+    }
 
 
     //initialization place
 
 
+    //   RomiGyro gyro;
 
-    RomiGyro gyro;
-
-    Joystick joystick = new Joystick(0);
-
-
-    XboxController controller = new XboxController(0);
-
-
-
-
+    //   Joystick joystick = new Joystick(0);
 
 
     @Override
     public void teleopPeriodic() {
-        TrapezoidProfile.State profileOutput = profile.calculate(0.01*counter);
+        TrapezoidProfile.State profileOutput = profile.calculate(0.01 * counter);
         controller.setSetpoint(profileOutput.position);
-        counter++;double output = controller.calculate(encoder.getPosition());
-        Spark.set(output);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //starts tank drive
-        if (controller.getAButtonPressed()){
-            clicked = true;
-        }
-        //stops tank drive
-        if (controller.getBButtonPressed()){
-            clicked = false;
-        }
-        //tank drive
-        if (clicked){
-            SparkLeft.set(controller.getY(GenericHID.Hand.kLeft));
-            SparkRight.set(controller.getY(GenericHID.Hand.kRight));
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //Robot goes forward and backward
-
-        while(controller.getY(GenericHID.Hand.kLeft) > 0) {
-            SparkLeft.set(1);
-        }
-
-        while(controller.getY(GenericHID.Hand.kLeft) < 0) {
-            SparkRight.set(-1);
-        }
-
-        //Robot turns left and right
-
-        while(controller.getX(GenericHID.Hand.kRight) > 0) {
-            SparkRight.set(-1);
-            SparkLeft.set(1);
-        }
-
-        while(controller.getX(GenericHID.Hand.kRight) < 0) {
-            SparkRight.set(1);
-            SparkLeft.set(-1);
-        }
-
-
-        //Robot goes forward and backward depending on button pressed
-
-        while(controller.getAButtonPressed() == true) {
-            SparkLeft.set(1);
-            SparkRight.set(1);
-
-            if (controller.getBButtonPressed() == true) {
-                SparkLeft.set(0);
-                SparkRight.set(0);
-            }
-
-        }
-
-        //one joystick controls one spark
-
-        while(controller.getY(GenericHID.Hand.kLeft) > 1){
-            SparkLeft.set(controller.getY(GenericHID.Hand.kLeft));
-        }
-
-        while(controller.getY(GenericHID.Hand.kRight) > 1){
-            SparkRight.set(controller.getY(GenericHID.Hand.kRight));
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //getting the x and y-axis for the joysticks
-
-        joystick.getX();
-        joystick.getY();
-
- //If you press a button on the controller, go forward/backward
-
-        if (controller.getAButton())
-
-            while (gyro.getAngleZ() < 45) {
-                SparkLeft.set(1);
-                SparkRight.set(-1);
-
-            }
-
-            if (controller.getAButton() && gyro.getAngleZ() < 45) {
-                SparkLeft.set(1);
-                SparkRight.set(-1);
-            }
-
-
-
-
-
-
-
+        //counter++;double output = controller.calculate(encoder.getPosition());
+        //Spark.set(output);
     }
 
-    @Override
-    public void autonomousInit() {
-
-    }
-
-    @Override
-    public void teleopInit() {
-
-        //Joystick joystick things
-
-        joystick.getX();
-        joystick.getY();
-
-        if (joystick.getX() > 0){
-            SparkLeft.set(1);
-        }
-
-        if (joystick.getX() < 0){
-            SparkRight.set(1);
-        }
-
-        if (joystick.getY() > 0){
-            SparkLeft.set(1);
-            SparkRight.set(1);
-        }
-
-        if (joystick.getX() < 0){
-            SparkRight.set(-1);
-            SparkLeft.set(-1);
-        }
-
-
-
-
-
-        //If you press a button that is on the robot
-        if (digitalInput3.get())
-            SparkLeft.set(1);
-            SparkRight.set(-1);
-
-        if (digitalInput1.get())
-            SparkLeft.set(-1);
-            SparkRight.set(1);
-
-        if (digitalInput2.get())
-            SparkLeft.set(1);
-            SparkRight.set(1);
-
-
-
-    }
-
-    //Runs when test mode is activated
-    @Override
-    public void testInit() {
-
-    }
-
-    //Runs whenever the robot is on, periodically: should be used for command schedulers
-    @Override
-    public void robotPeriodic() {
-
-    }
-
-    //Runs periodically during autonomous mode
-    @Override
-    public void autonomousPeriodic() {
-
-    }
-
-    //Runs periodically during test mode
-    @Override
-    public void testPeriodic() {
-
-    }
 }

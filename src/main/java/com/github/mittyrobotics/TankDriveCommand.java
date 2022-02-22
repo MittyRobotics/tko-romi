@@ -7,23 +7,45 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TankDriveCommand extends CommandBase {
+    public TankDriveCommand(){
+        super();
+        setName("Tank Drive");
+        addRequirements(DrivetrainSubsystem.getInstance());
+        
+    }
     Spark SparkLeft;
     Spark SparkRight;
     boolean clicked;
 
 
-    XboxController controller = new XboxController(0);
+    XboxController controller;
     DigitalInput digitalInput;
 
     @Override
     public void initialize() {
         SparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
         SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
+        controller = new XboxController(0);
 
 
 
     }
     public void execute() {
+        //DrivetrainSubsystem.getInstance().setSparkLeft(controller.getY(GenericHID.Hand.kLeft));
+        //DrivetrainSubsystem.getInstance().setSparkRight(controller.getY(GenericHID.Hand.kRight));
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         //starts tank drive
         if (controller.getAButtonPressed()){
             clicked = true;
@@ -45,11 +67,11 @@ public class TankDriveCommand extends CommandBase {
         super.execute();
     }
     public boolean isFinished() {
-
-        return false;
+        return controller.getAButtonPressed();
     }
     public void end(boolean interrupted) {
-        super.end(interrupted);
+      //  DrivetrainSubsystem.getInstance().setSparkLeft(0);
+      //  DrivetrainSubsystem.getInstance().setSparkRight(0);
     }
 }
 
