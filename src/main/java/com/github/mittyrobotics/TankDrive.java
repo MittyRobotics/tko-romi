@@ -3,6 +3,7 @@ package com.github.mittyrobotics;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.github.mittyrobotics.OI;
 
 public class TankDrive extends CommandBase {
     XboxController controller;
@@ -19,14 +20,14 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void execute() {
-        DriveTrainSubsystem.getInstance().sparkLeft(controller.getY(GenericHID.Hand.kLeft));
-        DriveTrainSubsystem.getInstance().sparkRight(controller.getX(GenericHID.Hand.kRight));
+        OI.getInstance().sparkLeft(controller.getY(GenericHID.Hand.kLeft)).DriveTrainSubsystem;
+        sparkRight.set(OI.getInstance().getXboxController().getAButtonPressed());
     }
 
     @Override
     public void end(boolean interrupted) {
-        DriveTrainSubsystem.getInstance().sparkLeft.set(0);
-        DriveTrainSubsystem.getInstance().sparkRight.set(0);
+        OI.getInstance().sparkLeft.set(0).DriveTrainSubsystem;
+        OI.getInstance().sparkRight.set(0).DriveTrainSubsystem;
     }
 
     @Override

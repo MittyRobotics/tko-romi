@@ -25,7 +25,9 @@ public class Robot extends TimedRobot {
     Spark sparkRight;
     Spark sparkLeft;
     Talon talon;
+    double kp = 0, ki = 0, kd = 0;
     PIDController controller = new PIDController(kp, ki, kd);
+    int counter = 0;
 
 
     @Override
