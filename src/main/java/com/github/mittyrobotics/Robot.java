@@ -16,7 +16,7 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
     Spark SparkLeft, SparkRight;
-    XboxController controller = new XboxController(0);
+    OI.getInstance().getXboxController();
     PIDController controller = new PIDController();
     TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
 
