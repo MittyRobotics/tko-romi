@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.github.mittyrobotics.OI;
 
 public class TankDriveCommand extends CommandBase {
     public TankDriveCommand(){
@@ -13,13 +14,14 @@ public class TankDriveCommand extends CommandBase {
         addRequirements(DrivetrainSubsystem.getInstance());
         
     }
-    Spark SparkLeft;
-    Spark SparkRight;
+    Spark SparkLeft, SparkRight;
     boolean clicked;
 
 
     XboxController controller;
     DigitalInput digitalInput;
+
+
 
     @Override
     public void initialize() {
@@ -31,19 +33,11 @@ public class TankDriveCommand extends CommandBase {
 
     }
     public void execute() {
-        //DrivetrainSubsystem.getInstance().setSparkLeft(controller.getY(GenericHID.Hand.kLeft));
-        //DrivetrainSubsystem.getInstance().setSparkRight(controller.getY(GenericHID.Hand.kRight));
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+        DrivetrainSubsystem.getInstance().setSparkLeft(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+        DrivetrainSubsystem.getInstance().setSparkRight(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+
         
         
         //starts tank drive
@@ -67,7 +61,8 @@ public class TankDriveCommand extends CommandBase {
         super.execute();
     }
     public boolean isFinished() {
-        return controller.getAButtonPressed();
+        return OI.getInstance().getXboxController().getAButton();
+
     }
     public void end(boolean interrupted) {
       //  DrivetrainSubsystem.getInstance().setSparkLeft(0);
