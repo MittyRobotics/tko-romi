@@ -1,48 +1,38 @@
 package com.github.mittyrobotics;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.github.mittyrobotics.util.OI;
 
 public class TankDriveCommand extends CommandBase {
-    public static XboxController leftController;
-    public static XboxController rightController;
-    public static DrivetrainSubsystem drivetrainSubsystem;
+    XboxController controller;
 
+    public TankDriveCommand () {
+        super();
+        setName("Tank Drive");
+        addRequirements(DrivetrainSubsystem.getInstance());
+    }
+
+    @Override
     public void initialize() {
-        leftController = new XboxController(0);
-        rightController = new XboxController(1);
-        drivetrainSubsystem = new DrivetrainSubsystem();
+        controller = new XboxController(0);
     }
 
+    @Override
     public void execute() {
-        if (leftController.getAButtonPressed()) {
-            drivetrainSubsystem.leftForward();
-        }
-        if (leftController.getBButtonPressed()) {
-            drivetrainSubsystem.leftBackward();
-        }
-        if (rightController.getAButtonPressed()) {
-            drivetrainSubsystem.rightForward();
-        }
-        if (rightController.getBButtonPressed()) {
-            drivetrainSubsystem.rightBackward();
-        }
-        if (leftController.getAButtonReleased() || leftController.getBButtonReleased() ) {
-            drivetrainSubsystem.leftStop();
-        }
-        if (rightController.getAButtonReleased() || rightController.getBButtonReleased() ) {
-            drivetrainSubsystem.rightStop();
-        }
+        DrivetrainSubsystem.getInstance().setSparkLeft(OI.getInstance().getY(GenericHID.Hand.kLeft));
+        DrivetrainSubsystem.getInstance().setSparkRight(OI.getInstance().getY(GenericHID.Hand.kRight));
     }
 
+    @Override
     public void end(boolean interrupted) {
-
+        DrivetrainSubsystem.getInstance().setSparkLeft(0);
+        DrivetrainSubsystem.getInstance().setSparkRight(0);
     }
 
+    @Override
     public boolean isFinished() {
-        return false;
+        return OI.getInstance().getAButtonPressed();
     }
 }
