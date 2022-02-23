@@ -1,11 +1,14 @@
 package com.github.mittyrobotics;
-
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.github.mittyrobotics.OI;
 
 public class TankDrive extends CommandBase {
+
+
 
     Spark SparkLeft, SparkRight;
     DigitalInput input0;
@@ -14,6 +17,12 @@ public class TankDrive extends CommandBase {
     DigitalInput input3;
     XboxController controller;
     RomiGyro gyro;
+
+    public TankDrive(){
+        super();
+        setName("Tank Drive");
+
+    }
     @Override
     public void initialize() {
         super.initialize();
@@ -31,9 +40,11 @@ public class TankDrive extends CommandBase {
     @Override
     public void execute() {
         super.execute();
+        DriveTrain.getInstance().setSparkLeft(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+        DriveTrain.getInstance().setSparkRight(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
         if(controller.getAButtonPressed()) {
             if (input0.get()) {
-                //move left
+               //move left
                 SparkLeft.set(0);
                 SparkRight.set(1);
             }
@@ -62,11 +73,13 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        super.end(interrupted);
+        DriveTrain.getInstance().setSparkLeft(0);
+        DriveTrain.getInstance().setSparkRight(0);
+
     }
 
     @Override
     public boolean isFinished() {
-        return super.isFinished();
+        return OI.getInstance().getXboxController().getAButtonPressed();
     }
 }

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 public class Robot extends TimedRobot {
 
     Spark SparkLeft, SparkRight;
-        DigitalInput digitalInput1;
+    DigitalInput digitalInput1;
     DigitalInput input2;
     DigitalInput input3;
     DigitalInput input4;
@@ -21,13 +21,15 @@ public class Robot extends TimedRobot {
     boolean released;
     //Runs when the robot is first started up and should be used for any initialization code
     /*
+
      *  INITIALIZE CLASSES HERE
      */
-    TrapezoidProfile.State start;
-    TrapezoidProfile.State end;
-    TrapezoidProfile.Constraints constraints;
-    TrapezoidProfile profile;
+    TrapezoidProfile.State start; //start variable from type trapezoidprofile.state
+    TrapezoidProfile.State end; //end var
+    TrapezoidProfile.Constraints constraints; //constraints var from .constraints
+    TrapezoidProfile profile; //profile
     int counter;
+    double kp, ki, kd;
     PIDController control  = new PIDController(kp, ki, kd);
     Encoder encoder;
 
@@ -44,11 +46,11 @@ public class Robot extends TimedRobot {
         gyro = new RomiGyro();
         clicked = controller.getAButtonPressed();
         released = controller.getAButtonReleased();
-         start = new TrapezoidProfile.State(0, 0);
-         end = new TrapezoidProfile.State(1.0, 0);
-         constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
-         profile = new TrapezoidProfile(constraints, end, start);
-         encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
+        start = new TrapezoidProfile.State(0, 0);
+        end = new TrapezoidProfile.State(1.0, 0);
+        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+        profile = new TrapezoidProfile(constraints, end, start);
+        encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
 
 
     }
