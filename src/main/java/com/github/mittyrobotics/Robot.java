@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import com.github.mittyrobotics.OI;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -30,6 +31,10 @@ public class Robot extends TimedRobot {
 
     Encoder encoder;
 
+    int kp = 1;
+    int ki = 1;
+    int kd = 1;
+
     @Override //test
     public void robotInit() {
         sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
@@ -51,7 +56,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        double output = controller.calculate(encoder.getVelocity()*10);
+            double output = controller.calculate(encoder.getDistance()*10);
         sparkLeft.set(output);
         sparkRight.set(output);
     }
