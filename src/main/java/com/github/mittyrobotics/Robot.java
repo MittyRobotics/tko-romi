@@ -17,6 +17,7 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
+    Compressor.getInstance().initHardware();
     public static Spark SparkLeft, SparkRight;
     public static Spark Piston1, Piston2;
     public static DigitalInput digitalInputA, digitalInputB, digitalInputC, digitalInputD;
@@ -26,7 +27,7 @@ public class Robot extends TimedRobot {
     public static XboxController rightController;
     public static boolean isActivated = false;
     RomiGyro gyro;
-    DoubleSolenoid;
+    DoubleSolenoid s = new DoubleSolenoid;
 
     @Override
     public void robotInit() {
@@ -80,18 +81,18 @@ public class Robot extends TimedRobot {
         }
         if (isActivated) {
             if (leftController.getAButtonPressed()) {
-                Piston1.set(DoubleSolenoid.Value.kForward);
+                s.set(DoubleSolenoid.Value.kForward);
             } else if (leftController.getBButtonPressed()) {
-                Piston1.set(DoubleSolenoid.Value.kReverse);
+                s.set(DoubleSolenoid.Value.kReverse);
             } else if (leftController.getXButtonPressed());
-                Piston2.set(DoubleSolenoid.Value.kForward);
+                s.set(DoubleSolenoid.Value.kForward);
             } else if (rightController.getAButtonPressed()) {
-                Piston2.set(DoubleSolenoid.Value.kReverse);
+                s.set(DoubleSolenoid.Value.kReverse);
             }
 
         } else {
-            Piston1.set(0);
-            Piston2.set(0);
+            s.set(0);
+            s.set(0);
     }
 
     //Runs when autonomous mode (robot runs on its own) first activated via the desktop application
