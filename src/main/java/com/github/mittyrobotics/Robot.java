@@ -16,6 +16,7 @@ public class Robot extends TimedRobot {
      */
     XboxController controller;
     Solenoid s;
+    Solenoid p;
 
 
 
@@ -26,7 +27,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Compressor.getInstance().initHardware();
-        s= new DoubleSolenoid(PneumaticsType.CETROM);
+
         controller = new XboxController(1);
     }
 
@@ -44,10 +45,10 @@ public class Robot extends TimedRobot {
         }
 
         if(controller.getXButtonPressed()){
-            s.set(DoubleSolenoid.Value.kForward);
+            p.set(DoubleSolenoid.Value.kForward);
         }
         if(controller.getYButtonPressed()){
-            s.set(DoubleSolenoid.Value.kReverse);
+            p.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
