@@ -1,12 +1,8 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-
 
 //Java automatically runs this class, and calls the various functions.
 /*
@@ -18,8 +14,9 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
-    TrapezoidProfile.State start;
-    TrapezoidProfile.State end;
+    XboxController controller;
+    Solenoid s;
+
 
 
 
@@ -28,11 +25,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        state = new TrapezoidProfile.State(0,0);
-        end = new TrapezoidProfile.State(1.0,0);
-        TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(0.2,0.2);
-        
-
+        Compressor.getInstance().initHardware();
+        s= new DoubleSolenoid(PneumaticsType.CETROM);
+        controller = new XboxController(1);
     }
 
     //Runs periodically during teleoperated mode
@@ -41,7 +36,19 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        if (controller.getAButtonPressed()){
+            s.set(DoubleSolenoid.Value.kForward);
+        }
+        if(controller.getBButtonPressed()){
+            s.set(DoubleSolenoid.Value.kReverse);
+        }
 
+        if(controller.getXButtonPressed()){
+            s.set(DoubleSolenoid.Value.kForward);
+        }
+        if(controller.getYButtonPressed()){
+            s.set(DoubleSolenoid.Value.kReverse);
+        }
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
