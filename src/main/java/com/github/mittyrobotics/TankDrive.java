@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TankDrive extends CommandBase {
     Spark sparkLeft, sparkRight;
-    XboxController controller;
+    XboxController OI;
 
     @Override
     public void initialize() {
@@ -17,15 +17,14 @@ public class TankDrive extends CommandBase {
         sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
         sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
 
-        controller = new XboxController(0);
     }
 
     @Override
     public void execute() {
         super.execute();
 
-        sparkLeft.set(controller.getY(GenericHID.Hand.kLeft));
-        sparkRight.set(controller.getY(GenericHID.Hand.kRight));
+        sparkLeft.set(OI.getY(GenericHID.Hand.kLeft));
+        sparkRight.set(OI.getY(GenericHID.Hand.kRight));
     }
 
     @Override
