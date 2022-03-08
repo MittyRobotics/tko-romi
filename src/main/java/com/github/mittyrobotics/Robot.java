@@ -12,51 +12,78 @@ public class Robot extends TimedRobot {
 
 
     Spark SparkLeft, SparkRight;
+    XboxController controller;
+    DoubleSolenoid s;
+    DoubleSolenoid p;
 
 
-    TrapezoidProfile.State start; //start variable from type trapezoidprofile.state
-    TrapezoidProfile.State end; //end var
-    TrapezoidProfile.Constraints constraints; //constraints variable .constraints
-    TrapezoidProfile profile; //profile from trapezoidprofile
-    int counter = 0;
-    double kp = 0.0, ki = 0.0, kd = 0.0;
-    PIDController controller = new PIDController(kp, ki, kd);
-    Encoder encoder;
+    public void robotInit() {
+        SparkLeft = new Spark(0); // 0 is example of left channel
+        SparkRight = new Spark(1); // 1 is example of right channel
+        SparkLeft.setInverted(true); // boolean parameter example
+        XboxController controller = new XboxController(0);
+
+
+    }
 
 
     @Override
-    public void robotInit() {
-        start = new TrapezoidProfile.State(0, 0);
-        end = new TrapezoidProfile.State(1, 0);
-        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
-        profile = new TrapezoidProfile(constraints, end, start);
-        encoder = new Encoder(Constants.Encoder_IDS[0], Constants.Encoder_IDS[1]);
+    public void teleopPeriodic() {
+        if (OI.getInstance().getXboxController().getAButton()) {
 
-
-        //initialize sparks
-
-        SparkLeft = new Spark(0);
-        SparkRight = new Spark(1);
-
-        //inverting wheels
-
-        SparkLeft.setInverted(true);
-
-
-        RomiGyro gyro;
-
-        Joystick joystick = new Joystick(0);
-
-    }
-        @Override
-        public void teleopPeriodic() {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter);
-            controller.setSetpoint(profileOutput.position);
-            double output = controller.calculate(encoder.getDistance());
-            counter++;
-            SparkLeft.set(output);
-            SparkRight.set(output);
+            s.set(DoubleSolenoid.Value.kReverse);
         }
 
+        if (OI.getInstance().getXboxController().getBButton()){
+            s.set(DoubleSolenoid.Value.kForward);
+        }
+
+        if(OI.getInstance().getXboxController().getYButton()){
+            p.set(DoubleSolenoid.Value.kReverse);
+        }
+
+        if(OI.getInstance().getXboxController().getXButton()){
+            p.set(DoubleSolenoid.Value.kForward);
+        }
     }
+
+
+    //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
+    @Override
+    public void autonomousInit() {
+
+
+    }
+
+    //Runs when teleoperated mode (robot controlled by driver) is first activated
+    @Override
+    public void teleopInit() {
+
+    }
+
+    //Runs when test mode is activated
+    @Override
+    public void testInit() {
+
+    }
+
+    //Runs whenever the robot is on, periodically: should be used for command schedulers
+    @Override
+    public void robotPeriodic() {
+
+    }
+
+    //Runs periodically during autonomous mode
+    @Override
+    public void autonomousPeriodic() {
+
+    }
+
+    //Runs periodically during test mode
+    @Override
+    public void testPeriodic() {
+
+    }
+}
+
 
