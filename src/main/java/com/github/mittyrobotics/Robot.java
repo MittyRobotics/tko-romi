@@ -16,9 +16,12 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
     Spark SparkLeft, SparkRight;
-    OI.getInstance().getXboxController();
+    OI.getInstance().getXboxController().getAbutton();
     PIDController controller = new PIDController();
     TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
+    DoubleSolenoid s;
+    DoubleSolenoid r;
+
 
 
 
@@ -100,9 +103,19 @@ public class Robot extends TimedRobot {
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
-        SparkLeft.set(1);
-        SparkRight.set(-1);
 
+        if (OI.getInstance().getXboxController().getAButton()) {
+            s.set(DoubleSolenoid.Value.kForward);
+        }
+        else if (OI.getInstance().getXboxController().getBButton()) {
+            s.set(DoubleSolenoid.Value.kReverse);
+        }
+        else if (OI.getInstance().getXboxController().getXButton()) {
+            r.set(DoubleSolenoid.Value.kForward);
+        }
+        else if (OI.getInstance().getXboxController().getYButton()) {
+            r.set(DoubleSolenoid.Value.kReverse);
+        }
 
     }
 
