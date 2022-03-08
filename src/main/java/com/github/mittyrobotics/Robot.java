@@ -16,7 +16,7 @@ public class Robot extends TimedRobot {
      */
     XboxController controller;
     Solenoid s;
-    Solenoid p;
+    Solenoid O;
 
 
 
@@ -45,10 +45,10 @@ public class Robot extends TimedRobot {
         }
 
         if(controller.getXButtonPressed()){
-            p.set(DoubleSolenoid.Value.kForward);
+            O.set(DoubleSolenoid.Value.kForward);
         }
         if(controller.getYButtonPressed()){
-            p.set(DoubleSolenoid.Value.kReverse);
+            O.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
