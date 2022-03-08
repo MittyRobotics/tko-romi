@@ -32,6 +32,8 @@ public class Robot extends TimedRobot {
     double kp, ki, kd;
     PIDController control  = new PIDController(kp, ki, kd);
     Encoder encoder;
+    DoubleSolenoid s;
+    DoubleSolenoid p;
 
     @Override
     public void robotInit() {
@@ -51,8 +53,6 @@ public class Robot extends TimedRobot {
         constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
         profile = new TrapezoidProfile(constraints, end, start);
         encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
-
-
     }
 
     //Runs periodically during teleoperated mode
@@ -68,6 +68,20 @@ public class Robot extends TimedRobot {
         SparkLeft.set(output);
         SparkRight.set(output);
         counter++;
+
+        if(OI.getInstance().getXboxController().getAButton()){
+            s.set(DoubleSolenoid.Value.kForward);
+        }
+        if(OI.getInstance().getXboxController().getBButton()){
+            s.set(DoubleSolenoid.Value.kReverse);
+        }
+        if(OI.getInstance().getXboxController().getXButton()){
+            p.set(DoubleSolenoid.Value.kForward);
+        }
+        if(OI.getInstance().getXboxController().getYButton()){
+            p.set(DoubleSolenoid.Value.kReverse);
+        }
+
         if(clicked==false){
             clicked=false;
         }
