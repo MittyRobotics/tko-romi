@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.Joystick.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import org.w3c.dom.ls.LSOutput;
 
 
@@ -18,11 +19,12 @@ public class Robot extends TimedRobot {
 
 
     public void robotInit() {
+        //Compressor.getInstance().initHardware();
         SparkLeft = new Spark(0); // 0 is example of left channel
         SparkRight = new Spark(1); // 1 is example of right channel
         SparkLeft.setInverted(true); // boolean parameter example
         XboxController controller = new XboxController(0);
-
+        s = new DoubleSolenoid(1, 2);
 
     }
 
