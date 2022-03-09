@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
-
+    Compressor.getInstance().initHardware();
     public static Spark SparkLeft, SparkRight;
     public static DigitalInput digitalInputA, digitalInputB, digitalInputC, digitalInputD;
 
@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        Compressor.getInstance().initHardware();
         SparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
         SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
 
