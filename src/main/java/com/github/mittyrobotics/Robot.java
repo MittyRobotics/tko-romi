@@ -2,8 +2,8 @@ package com.github.mittyrobotics;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import com.github.mittyrobotics.util.Compressor;
 //Java automatically runs this class, and calls the various functions.
 /*
  *  YOUR WIFI MUST BE CONNECTED TO ROMI FOR THIS TO WORK
@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
         constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
         profile = new TrapezoidProfile(constraints, end, start);
         encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
+        s = new DoubleSolenoid(1,2);
     }
 
     //Runs periodically during teleoperated mode
