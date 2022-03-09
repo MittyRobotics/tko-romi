@@ -73,13 +73,13 @@ public class Robot extends TimedRobot {
         if(OI.getInstance().getXboxController().getAButton()){
             s.set(DoubleSolenoid.Value.kForward);
         }
-        if(OI.getInstance().getXboxController().getBButton()){
+        else if(OI.getInstance().getXboxController().getBButton()){
             s.set(DoubleSolenoid.Value.kReverse);
         }
-        if(OI.getInstance().getXboxController().getXButton()){
+        else if(OI.getInstance().getXboxController().getXButton()){
             p.set(DoubleSolenoid.Value.kForward);
         }
-        if(OI.getInstance().getXboxController().getYButton()){
+        else if(OI.getInstance().getXboxController().getYButton()){
             p.set(DoubleSolenoid.Value.kReverse);
         }
 
