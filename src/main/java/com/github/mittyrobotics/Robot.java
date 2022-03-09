@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
     public static XboxController rightController;
     public static boolean isActivated = false;
     RomiGyro gyro;
-    DoubleSolenoid s = new DoubleSolenoid;
+    DoubleSolenoid s = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
 
     @Override
     public void robotInit() {
@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
                 s.set(DoubleSolenoid.Value.kReverse);
             } else if (leftController.getXButtonPressed());
                 s.set(DoubleSolenoid.Value.kForward);
-            } else if (rightController.getAButtonPressed()) {
+            } else if (rightController.getYButtonPressed()) {
                 s.set(DoubleSolenoid.Value.kReverse);
             }
 
