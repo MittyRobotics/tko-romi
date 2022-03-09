@@ -21,8 +21,6 @@ public class TankDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        // DrivetrainSubsystem.getInstance().setSparkLeft(OI.getInstance().getY(GenericHID.Hand.kLeft));
-        // DrivetrainSubsystem.getInstance().setSparkRight(OI.getInstance().getY(GenericHID.Hand.kRight));
         DrivetrainSubsystem.getInstance().setSparkLeft(controller.getY(GenericHID.Hand.kLeft));
         DrivetrainSubsystem.getInstance().setSparkRight(controller.getY(GenericHID.Hand.kRight));
     }

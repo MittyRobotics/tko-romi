@@ -5,6 +5,9 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import javax.swing.plaf.nimbus.State;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import com.github.mittyrobotics.util.Compressor;
 
 //Java automatically runs this class, and calls the various functions.
 /*
@@ -17,9 +20,8 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
-    Compressor.getInstance().initHardware();
+
     public static Spark SparkLeft, SparkRight;
-    public static Spark Piston1, Piston2;
     public static DigitalInput digitalInputA, digitalInputB, digitalInputC, digitalInputD;
 
     XboxController controller;
@@ -27,18 +29,13 @@ public class Robot extends TimedRobot {
     public static XboxController rightController;
     public static boolean isActivated = false;
     RomiGyro gyro;
-    DoubleSolenoid s = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
+    DoubleSolenoid s = new DoubleSolenoid(1, 2);
 
     @Override
     public void robotInit() {
+        Compressor.getInstance().initHardware();
         SparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
         SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
-
-        Piston1 = new Spark(Constants.LEFT_MOTOR_ID);
-        Piston2 = new Spark(Constants.RIGHT_MOTOR_ID);
-
-        Piston1.setInverted(true);
-        Piston2.setInverted(false);
 
         digitalInputA = new DigitalInput(Constants.A_BUTTON_ID);
         digitalInputB = new DigitalInput(Constants.B_BUTTON_ID);
@@ -57,42 +54,22 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        /*if (digitalInputA.get()) {
-            SparkLeft.set(-1);
-            SparkRight.set(1);
-        }else if (digitalInputB.get()) {
-        } else if (digitalInputB.get()) {
-            SparkLeft.set(1);
-            SparkRight.set(-1);
-            //digitalOutputRed.set(true);
-        }else if (digitalInputC.get()) {
-        } else if (digitalInputC.get()) {
-            SparkLeft.set(1);
-            SparkRight.set(1);
-        }else if (digitalInputD.get()) {
-        } else if (digitalInputD.get()) {
-            SparkLeft.set(-1);
-            SparkRight.set(-1);
-        }*/
+
         if (controller.getAButtonPressed()) {
             isActivated = true;
         } else if (controller.getBButtonPressed()) {
             isActivated = false;
         }
         if (isActivated) {
-            if (leftController.getAButtonPressed()) {
+            if (controller.getAButtonPressed()) {
                 s.set(DoubleSolenoid.Value.kForward);
-            } else if (leftController.getBButtonPressed()) {
+            } else if (controller.getBButtonPressed()) {
                 s.set(DoubleSolenoid.Value.kReverse);
-            } else if (leftController.getXButtonPressed());
+            } else if (controller.getXButtonPressed());
                 s.set(DoubleSolenoid.Value.kForward);
-            } else if (rightController.getYButtonPressed()) {
+            } else if (controller.getYButtonPressed()) {
                 s.set(DoubleSolenoid.Value.kReverse);
             }
-
-        } else {
-            s.set(0);
-            s.set(0);
     }
 
     //Runs when autonomous mode (robot runs on its own) first activated via the desktop application
