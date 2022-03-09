@@ -1,4 +1,6 @@
 package com.github.mittyrobotics;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -15,8 +17,8 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
     XboxController controller;
-    Solenoid s;
-    Solenoid O;
+    DoubleSolenoid s;
+    DoubleSolenoid O;
 
 
 
@@ -27,7 +29,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Compressor.getInstance().initHardware();
-
+        s= new DoubleSolenoid(PneumaticsModuleType.CTREPCM,1,1);
+        O = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,2, 1);
         controller = new XboxController(1);
     }
 
