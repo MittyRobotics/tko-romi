@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-
 import static com.github.mittyrobotics.Constants.TICKS_PER_INCH;
 
 
@@ -28,9 +27,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Compressor.getInstance().initHardware();
-        one = new DoubleSolenoid(PneumaticsModuleType.CTREPOM, 0, 1);
+        one = new DoubleSolenoid(0, 1);
         Compressor.getInstance().initHardware();
-        two = new DoubleSolenoid(PneumaticsModuleType.CTREPOM, 2, 3);
+        two = new DoubleSolenoid(2, 3);
 
     }
     @Override
