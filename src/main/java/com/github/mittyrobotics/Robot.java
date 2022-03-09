@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     public static XboxController rightController;
     public static boolean isActivated = false;
     RomiGyro gyro;
-    DoubleSolenoid s = new DoubleSolenoid(1, 2);
+    s = new DoubleSolenoid(1, 2);
 
     @Override
     public void robotInit() {
