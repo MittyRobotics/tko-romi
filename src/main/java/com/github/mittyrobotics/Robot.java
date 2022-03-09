@@ -3,12 +3,17 @@ package com.github.mittyrobotics;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import com.github.mittyrobotics.util.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
 //Java automatically runs this class, and calls the various functions.
 /*
  *  YOUR WIFI MUST BE CONNECTED TO ROMI FOR THIS TO WORK
  */
+
+
 public class Robot extends TimedRobot {
 
     //Runs when the robot is first started up and should be used for any initialization code
@@ -19,8 +24,8 @@ public class Robot extends TimedRobot {
     OI.getInstance().getXboxController().getAbutton();
     PIDController controller = new PIDController();
     TrapezoidProfile.State start = new TrapezoidProfile.State(0, 0);
-    DoubleSolenoid s;
-    DoubleSolenoid r;
+    DoubleSolenoid s = new DoubleSolenoid(1, 2);
+    DoubleSolenoid r = new DoubleSolenoid(1, 2);
 
 
 

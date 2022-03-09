@@ -18,7 +18,7 @@ public class OI {
 
     }
 
-    public XboxController getxBox  edu.wpi.first.wpilibj.XboxController getXboxController() {
+    public XboxController getXox  edu.wpi.first.wpilibj.XboxController getXboxController() {
         if (XboxController == null) {
             XboxController = new XboxController(0);
 
