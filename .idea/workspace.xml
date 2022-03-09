@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34a8bc03-e56d-48a3-9c6f-5fe36900ebe8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/pneumatics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/TankDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/TankDrive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/pneumatics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/pneumatics.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

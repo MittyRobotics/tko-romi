@@ -1,6 +1,10 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import com.github.mittyrobitcs.util.Compressor;
 
 public class Robot extends TimedRobot {
     Spark SparkLeft, SparkRight;
@@ -12,8 +16,6 @@ public class Robot extends TimedRobot {
         SparkRight = new Spark(1);
         SparkLeft.setInverted(true);
         XboxController controller = new XboxController(0);
-
-
     }
 
 
@@ -31,7 +33,6 @@ public class Robot extends TimedRobot {
         if(OI.getInstance().getXboxController().getYButton()){
             sol2.set(DoubleSolenoid.Value.kReverse);
         }
-    //hi
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
