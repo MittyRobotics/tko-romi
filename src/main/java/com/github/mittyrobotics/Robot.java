@@ -35,18 +35,20 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         if (controller.getAButtonPressed()) {
-            if (controller.getBButtonPressed()) {
-                one.set(DoubleSolenoid.Value.kReverse);
-            }
-            if (controller.getXButtonPressed()) {
-                two.set(DoubleSolenoid.Value.kForward);
-            }
-            if (controller.getYButtonPressed()) {
-                two.set(DoubleSolenoid.Value.kReverse);
-            }
+            one.set(DoubleSolenoid.Value.kForward);
+        }
+        if (controller.getBButtonPressed()) {
+            one.set(DoubleSolenoid.Value.kReverse);
+        }
+        if (controller.getXButtonPressed()) {
+            two.set(DoubleSolenoid.Value.kForward);
+        }
+        if (controller.getYButtonPressed()) {
+            two.set(DoubleSolenoid.Value.kReverse);
         }
 
     }
+
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
