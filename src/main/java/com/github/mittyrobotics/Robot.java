@@ -28,8 +28,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Compressor.getInstance().initHardware();
-        s= new DoubleSolenoid(1,1);
-        O = new DoubleSolenoid(2, 1);
+        s= new DoubleSolenoid(1,2);
+        O = new DoubleSolenoid(3, 5);
         controller = new XboxController(1);
     }
 
