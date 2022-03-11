@@ -10,7 +10,7 @@ import com.github.mittyrobotics.util.Compressor;
  */
 public class Robot extends TimedRobot {
 
-    Spark SparkLeft, SparkRight;
+//    Spark SparkLeft, SparkRight;
     DigitalInput digitalInput1;
     DigitalInput input2;
     DigitalInput input3;
@@ -37,23 +37,25 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID;
-        SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
-        SparkLeft.setInverted(true);
-        digitalInput1 = new DigitalInput(0);
-        input2 = new DigitalInput(1);
-        input3 = new DigitalInput(2);
-        input4 = new DigitalInput(3);
+//        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID;
+//        SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
+//        SparkLeft.setInverted(true);
+//        digitalInput1 = new DigitalInput(0);
+//        input2 = new DigitalInput(1);
+//        input3 = new DigitalInput(2);
+//        input4 = new DigitalInput(3);
         controller =  new XboxController(0);
-        gyro = new RomiGyro();
-        clicked = controller.getAButtonPressed();
-        released = controller.getAButtonReleased();
-        start = new TrapezoidProfile.State(0, 0);
-        end = new TrapezoidProfile.State(1.0, 0);
-        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
-        profile = new TrapezoidProfile(constraints, end, start);
-        encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
-        s = new DoubleSolenoid(1,2);
+//        gyro = new RomiGyro();
+//        clicked = controller.getAButtonPressed();
+//        released = controller.getAButtonReleased();
+//        start = new TrapezoidProfile.State(0, 0);
+//        end = new TrapezoidProfile.State(1.0, 0);
+//        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+//        profile = new TrapezoidProfile(constraints, end, start);
+//        encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
+//        s = new DoubleSolenoid(1,2);
+
+        DriveTrain.getInstance().initHardware();
     }
 
     //Runs periodically during teleoperated mode
@@ -62,7 +64,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        
+        if (clicked){
+            SparkLeft.set(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
+            SparkRight.set(OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft);
+        }
         TrapezoidProfile.State profileOutput = profile.calculate(0.02*counter);
         control.setSetpoint(profileOutput.position);
         double output = control.calculate(encoder.getDistance());
