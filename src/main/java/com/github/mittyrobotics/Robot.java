@@ -10,6 +10,7 @@ import org.w3c.dom.ls.LSOutput;
 
 
 public class Robot extends TimedRobot {
+    Boolean clicked;
 
 
     Spark SparkLeft, SparkRight;
@@ -19,19 +20,31 @@ public class Robot extends TimedRobot {
 
 
     public void robotInit() {
-        //Compressor.getInstance().initHardware();
-        SparkLeft = new Spark(0); // 0 is example of left channel
-        SparkRight = new Spark(1); // 1 is example of right channel
-        SparkLeft.setInverted(true); // boolean parameter example
-        XboxController controller = new XboxController(0);
-        s = new DoubleSolenoid(1, 2);
+        //starts tank drive
+        if (controller.getAButtonPressed()){
+            clicked = true;
+        }
+        //stops tank drive
+        if (controller.getBButtonPressed()){
+            clicked = false;
+        }
+        //tank drive
+        if (clicked){
+            SparkLeft.set(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+            SparkRight.set(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+        }
 
     }
 
 
     @Override
     public void teleopPeriodic() {
-        if (OI.getInstance().getXboxController().getAButton()) {
+
+        DrivetrainSubsystem.getInstance().setSparkLeft(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+        DrivetrainSubsystem.getInstance().setSparkRight(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+        
+    }
+        /*if (OI.getInstance().getXboxController().getAButton()) {
 
             s.set(DoubleSolenoid.Value.kReverse);
         }
@@ -48,6 +61,9 @@ public class Robot extends TimedRobot {
             p.set(DoubleSolenoid.Value.kForward);
         }
     }
+
+    */
+
 
 //hi
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application

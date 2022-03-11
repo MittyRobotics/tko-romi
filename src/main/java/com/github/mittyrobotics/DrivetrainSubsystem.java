@@ -1,4 +1,5 @@
 package com.github.mittyrobotics;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,6 +28,11 @@ public class DrivetrainSubsystem extends SubsystemBase{
         SparkRight.set(val);
     }
 
+
+
+
+
+
     public void setMotors(double val){
         SparkLeft.set(val);
         SparkRight.set(val);
@@ -43,3 +49,6 @@ public class DrivetrainSubsystem extends SubsystemBase{
 
 
 }
+
+
+
