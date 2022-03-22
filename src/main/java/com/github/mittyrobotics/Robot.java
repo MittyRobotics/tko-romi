@@ -10,7 +10,7 @@ import com.github.mittyrobotics.util.Compressor;
  */
 public class Robot extends TimedRobot {
 
-//    Spark SparkLeft, SparkRight;
+    Spark SparkLeft, SparkRight;
     DigitalInput digitalInput1;
     DigitalInput input2;
     DigitalInput input3;
@@ -33,13 +33,14 @@ public class Robot extends TimedRobot {
     PIDController control  = new PIDController(kp, ki, kd);
     Encoder encoder;
     DoubleSolenoid s;
+    boolean deadZone;
     DoubleSolenoid p;
 
     @Override
     public void robotInit() {
-//        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID;
-//        SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
-//        SparkLeft.setInverted(true);
+        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID;
+        SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
+        SparkLeft.setInverted(true);
 //        digitalInput1 = new DigitalInput(0);
 //        input2 = new DigitalInput(1);
 //        input3 = new DigitalInput(2);
@@ -50,11 +51,11 @@ public class Robot extends TimedRobot {
 //        released = controller.getAButtonReleased();
 //        start = new TrapezoidProfile.State(0, 0);
 //        end = new TrapezoidProfile.State(1.0, 0);
-//        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+        constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
 //        profile = new TrapezoidProfile(constraints, end, start);
 //        encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
 //        s = new DoubleSolenoid(1,2);
-
+        deadZone = true;
         DriveTrain.getInstance().initHardware();
     }
 
@@ -64,6 +65,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+
+
         if (clicked){
             SparkLeft.set(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
             SparkRight.set(OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft);
@@ -107,13 +110,13 @@ public class Robot extends TimedRobot {
             SparkLeft.set(-1);
             SparkRight.set(-1);
         }
-/*        if(controller.getAButton()){
+        if(controller.getAButton()){
             while(gyro.getAngleZ()<=45){
                 SparkLeft.set(-0.5);
                 SparkRight.set(0.5);
             }
         }
-        */
+
         if(clicked){
             SparkLeft.set(controller.getY(GenericHID.Hand.kLeft));
             SparkRight.set(controller.getY(GenericHID.Hand.kRight));
@@ -123,7 +126,7 @@ public class Robot extends TimedRobot {
             SparkRight.set(0.5);
         }
 
-
+        */
     }
 
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application

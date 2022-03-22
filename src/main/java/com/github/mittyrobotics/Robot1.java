@@ -10,20 +10,35 @@ import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
  */
 public class Robot1 extends TimedRobot {
 
-
+    Spark SparkLeft, SparkRight;
+    double deadZone = 0.2;
+    boolean inDeadZone;
+    XboxController controller;
     @Override
     public void robotInit() {
         DriveTrain.getInstance().initHardware();
-    }
+        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
 
-    //Runs periodically during teleoperated mode
-    /*
-     *  WRITE YOUR DRIVE CODE HERE
-     */
+        //Runs periodically during teleoperated mode
+        /*
+         *  WRITE YOUR DRIVE CODE HERE
+         */
+        controller =  new XboxController(0);
+
+    }
     @Override
     public void teleopPeriodic() {
-        DriveTrain.getInstance().setSparkLeft(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
-        DriveTrain.getInstance().setSparkRight(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+        if(controller.getY(GenericHID.Hand.kLeft) > -deadZone && OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft) > deadZone){
+             DriveTrain.getInstance().setSparkLeft(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+             SparkLeft.set(controller.getY(GenericHID.Hand.kLeft));
+             SparkRight.set(controller.getY(GenericHID.Hand.kRight));
+            inDeadZone = false;
+        }
+        else if() {
+            inDeadZone = true;
+        }
+
 
     }
 

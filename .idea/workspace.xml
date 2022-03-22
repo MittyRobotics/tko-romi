@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34a8bc03-e56d-48a3-9c6f-5fe36900ebe8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/Robot1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/RomiRobot2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/Robot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/Robot1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/mittyrobotics/Robot1.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +73,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
