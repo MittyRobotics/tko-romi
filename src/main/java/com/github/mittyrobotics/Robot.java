@@ -7,7 +7,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import static com.github.mittyrobotics.Constants.TICKS_PER_INCH;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
+import static com.github.mittyrobotics.Constants.*;
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -20,40 +23,139 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
-    DoubleSolenoid one;
-    DoubleSolenoid two;
-    XboxController controller;
+    Spark sparkRight, sparkLeft;
+    RomiGyro gyro;
+    TrapezoidProfile.State start;
+    TrapezoidProfile.State end;
+    TrapezoidProfile.Constraints constraints;
+    TrapezoidProfile profile;
+    TrapezoidProfile.State profileOutput;
+    int counter1, counter2, counter3, counter4, counter5, counter6, counter7, counter8;
+    Encoder encoder;
+    PIDController controller;
 
     @Override
     public void robotInit() {
-        Compressor.getInstance().initHardware();
-        one = new DoubleSolenoid(0, 1);
-        Compressor.getInstance().initHardware();
-        two = new DoubleSolenoid(2, 3);
-
+        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
+        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        gyro = new RomiGyro();
+        TrapezoidProfile.State start = new TrapezoidProfile.State(0,0);
+        TrapezoidProfile.State end = new TrapezoidProfile.State(1.0,0);
+        TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(0.2, 0.2);
+        TrapezoidProfile profile = new TrapezoidProfile(constraints, end, start);
+        TrapezoidProfile.State profileOutput = profile.calculate(0.2);
+        encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
+        counter1 = 0;
+        counter2 = 0;
+        counter3 =0;
+        counter4 = 0;
+        counter5 = 0;
+        counter6 = 0;
+        counter7 = 0;
+        counter8 = 0;
+        double kp = 0.0, ki = 0.0, kd = 0.0;
+        controller = new PIDController(kp, ki, kd);
     }
     @Override
     public void teleopPeriodic() {
-        if (controller.getAButtonPressed()) {
-            one.set(DoubleSolenoid.Value.kForward);
-        }
-        if (controller.getBButtonPressed()) {
-            one.set(DoubleSolenoid.Value.kReverse);
-        }
-        if (controller.getXButtonPressed()) {
-            two.set(DoubleSolenoid.Value.kForward);
-        }
-        if (controller.getYButtonPressed()) {
-            two.set(DoubleSolenoid.Value.kReverse);
-        }
+
 
     }
-
-
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
-
+        while (encoder.getDistance() < 12*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter1);
+            controller.setSetpoint(12 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter1++;
+        }
+        while (gyro.getAngleZ() < 90) {
+            sparkLeft.set(0.5);
+            sparkRight.set(-0.5);
+        }
+        while (encoder.getDistance() < 18*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter2);
+            controller.setSetpoint(6 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter2++;
+        }
+        while (gyro.getAngleZ() > 0) {
+            sparkLeft.set(0);
+            sparkRight.set(0.5);
+        }
+        while (encoder.getDistance() < 42*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter3);
+            controller.setSetpoint(24 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter3++;
+        }
+        while (gyro.getAngleZ() < 90) {
+            sparkLeft.set(0.5);
+            sparkRight.set(0);
+        }
+        while (encoder.getDistance() < 57*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter4);
+            controller.setSetpoint(15 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter4++;
+        }
+        while (gyro.getAngleZ() > 0) {
+            sparkLeft.set(0);
+            sparkRight.set(0.5);
+        }
+        while (encoder.getDistance() < 63*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter5);
+            controller.setSetpoint(6 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter5++;
+        }
+        while (gyro.getAngleZ() < 240) {
+            sparkLeft.set(0.5);
+            sparkRight.set(0);
+        }
+        while (encoder.getDistance() < 87*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter6);
+            controller.setSetpoint(24 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter6++;
+        }
+        while (gyro.getAngleZ() > -50) {
+            sparkLeft.set(0);
+            sparkRight.set(0.5);
+        }
+        while (encoder.getDistance() < 123*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter7);
+            controller.setSetpoint(36 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter7++;
+        }
+        while (gyro.getAngleZ() > -112) {
+            sparkLeft.set(0);
+            sparkRight.set(0.5);
+        }
+        while (encoder.getDistance() < 153*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter8);
+            controller.setSetpoint(36 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter8++;
+        }
     }
 
     //Runs when teleoperated mode (robot controlled by driver) is first activated
