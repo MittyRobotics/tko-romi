@@ -14,6 +14,7 @@ public class RomiRobot2 extends TimedRobot {
     double kp, ki, kd;
     PIDController control  = new PIDController(kp, ki, kd);
     Encoder encoder;
+
     public void robotInit() {
         SparkLeft = new Spark(Constants.LEFT_MOTOR_ID;
         SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
@@ -33,43 +34,57 @@ public class RomiRobot2 extends TimedRobot {
 
     }
     public void challenge(){
-        moveDistance(12);
+        int currDistance = 0;
+        currDistance += 12;
+        moveForward(12, currDistance);
         changeDirection(90, true);
-        moveDistance(6);
+        currDistance += 6;
+        moveForward(6,currDistance);
         changeDirection(90,false);
-        moveDistance(12);
+        currDistance += 12;
+        moveForward(12,currDistance);
         changeDirection(120,true);
-        moveDistance(18);
+        currDistance += 18;
+        moveForward(18,currDistance);
         changeDirection(130,false);
-        moveDistance(36);
+        currDistance += 36;
+        moveForward(36, currDistance);
         changeDirection(90,true);
-        moveDistance(10);
+        currDistance += 10;
+        moveForward(10, currDistance);
         changeDirection(60,false);
-        moveDistance(36);
+        currDistance += 36;
+        moveForward(36, currDistance);
     }
-    public void moveDistance(int d_inch){
-
+    public void moveForward(int d_inch, int currDistance){
+        while(encoder.getDistance()<currDistance){
+            TrapezoidProfile.State profileOutput = profile.calculate(0.2*counter);
+            control.setSetpoint(d_inch*Constants.TICKS_PER_INCH);
+            double output = control.calculate(encoder.getDistance());
+            SparkLeft.set(output);
+            SparkRight.set(output);
+            counter++;
+        }
     }
     public void changeDirection(int a_degrees, boolean right){
         if(right){
             //gyro check if it is greater than a_degrees
-            SparkLeft.set(1);
-            SparkRight.set(0);
+            while(gyro.getAngleX()<a_degrees){
+                SparkLeft.set(1);
+                SparkRight.set(-1);
+            }
         }
         else{
             //gyro check if it is greater than a_degrees
-            SparkLeft.set(0);
-            SparkRight.set(1);
+            while(gyro.getAngleX()<a_degrees){
+                SparkLeft.set(-1);
+                SparkRight.set(1);
+            }
         }
     }
     public void autonomousInit() {
 
-        TrapezoidProfile.State profileOutput = profile.calculate(12*counter);
-        control.setSetpoint(profileOutput.position);
-        double output = control.calculate(encoder.getDistance());
-        SparkLeft.set(output);
-        SparkRight.set(output);
-        counter++;
+
 
     }
 

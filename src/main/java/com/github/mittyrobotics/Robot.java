@@ -153,7 +153,7 @@ public class Robot extends TimedRobot {
 
     }
 
-    //Runs periodically during autonomous mode
+    //Runs periodically during auto6nomous mode
     @Override
     public void autonomousPeriodic() {
 
