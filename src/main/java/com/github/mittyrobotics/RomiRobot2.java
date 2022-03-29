@@ -16,7 +16,7 @@ public class RomiRobot2 extends TimedRobot {
     Encoder encoder;
 
     public void robotInit() {
-        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID;
+        SparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
         SparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
         SparkLeft.setInverted(true);
         gyro = new RomiGyro();
@@ -29,7 +29,6 @@ public class RomiRobot2 extends TimedRobot {
     public void teleopPeriodic() {
 
         //straight 12 inches
-
 
 
     }
@@ -55,6 +54,32 @@ public class RomiRobot2 extends TimedRobot {
         changeDirection(60,false);
         currDistance += 36;
         moveForward(36, currDistance);
+    }
+    public void challenge2(){
+        int currDistance = 0;
+        currDistance += 12;
+        moveForward(12, currDistance);
+        changeDirection(90, true);
+        currDistance += 6;
+        moveForward(6,currDistance);
+        changeDirection(90,false);
+        currDistance += 24;
+        moveForward(24,currDistance);
+        changeDirection(90,true);
+        currDistance += 15;
+        moveForward(15,currDistance);
+        changeDirection(80,false);
+        currDistance += 6;
+        moveForward(6, currDistance);
+        changeDirection(100,true);
+        currDistance += 24;
+        moveForward(24, currDistance);
+        changeDirection(110,false);
+        currDistance += 36;
+        moveForward(36, currDistance);
+        changeDirection(70,false);
+        currDistance += 30;
+        moveForward(30, currDistance);
     }
     public void moveForward(int d_inch, int currDistance){
         while(encoder.getDistance()<currDistance){
