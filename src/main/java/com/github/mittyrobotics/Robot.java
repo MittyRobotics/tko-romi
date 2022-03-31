@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
         redLight.close();
         yellowLight.start();
         while (gyro.getAngleZ() > 0) {
-            sparkLeft.set(0);
+            sparkLeft.set(-0.5);
             sparkRight.set(0.5);
         }
         yellowLight.close();
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
         redLight.start();
         while (gyro.getAngleZ() < 90) {
             sparkLeft.set(0.5);
-            sparkRight.set(0);
+            sparkRight.set(-0.5);
         }
         redLight.close();
         yellowLight.start();
@@ -129,7 +129,7 @@ public class Robot extends TimedRobot {
         yellowLight.close();
         greenLight.start();
         while (gyro.getAngleZ() > 0) {
-            sparkLeft.set(0);
+            sparkLeft.set(-0.5);
             sparkRight.set(0.5);
         }
         greenLight.close();
@@ -144,9 +144,9 @@ public class Robot extends TimedRobot {
         }
         redLight.close();
         yellowLight.start();
-        while (gyro.getAngleZ() < 240) {
+        while (gyro.getAngleZ() < 80) {
             sparkLeft.set(0.5);
-            sparkRight.set(0);
+            sparkRight.set(-0.5);
         }
         yellowLight.close();
         greenLight.start();
@@ -160,8 +160,8 @@ public class Robot extends TimedRobot {
         }
         greenLight.close();
         redLight.start();
-        while (gyro.getAngleZ() > -50) {
-            sparkLeft.set(0);
+        while (gyro.getAngleZ() > 10) {
+            sparkLeft.set(-0.5);
             sparkRight.set(0.5);
         }
         redLight.close();
@@ -176,8 +176,8 @@ public class Robot extends TimedRobot {
         }
         yellowLight.close();
         greenLight.start();
-        while (gyro.getAngleZ() > -112) {
-            sparkLeft.set(0);
+        while (gyro.getAngleZ() > -60) {
+            sparkLeft.set(-0.5);
             sparkRight.set(0.5);
         }
         greenLight.close();
