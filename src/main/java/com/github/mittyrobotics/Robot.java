@@ -100,15 +100,15 @@ public class Robot extends TimedRobot {
         }
         if (isActivated) {
             if (leftController.getAButtonPressed()) {
-                SparkLeft.set(0.25);
+                SparkLeft.set(1);
             } else if (leftController.getBButtonPressed()) {
-                SparkLeft.set(-0.25);
+                SparkLeft.set(-1);
             } else if (leftController.getAButtonReleased() || leftController.getBButtonReleased() ) {
                 SparkLeft.set(0);
             } else if (rightController.getAButtonPressed()) {
-                SparkRight.set(0.25);
+                SparkRight.set(1);
             } else if (rightController.getBButtonPressed()) {
-                SparkRight.set(-0.25);
+                SparkRight.set(-1);
             } else if (rightController.getAButtonReleased() || rightController.getBButtonReleased() ) {
                 SparkRight.set(0);
             }
@@ -178,7 +178,7 @@ public class Robot extends TimedRobot {
             rightEncoder.reset();
             step = 5;
         }
-        else if (step == 5) {
+        /*else if (step == 5) {
             while(leftEncoder.getDistance() >= -6 && rightEncoder.getDistance() >= -6) {
                 SparkLeft.set(1);
                 SparkRight.set(1);
