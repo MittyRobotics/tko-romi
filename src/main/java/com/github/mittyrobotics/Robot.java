@@ -32,11 +32,14 @@ public class Robot extends TimedRobot {
     TrapezoidProfile profile;
     TrapezoidProfile.State profileOutput;
     int counter1, counter2, counter3, counter4, counter5, counter6, counter7, counter8;
+    int lounter;
     Encoder encoder;
     PIDController controller;
     AddressableLED greenLight;
     AddressableLED redLight;
     AddressableLED yellowLight;
+    int oldangle;
+    double getOldangle;
 
     @Override
     public void robotInit() {
@@ -57,11 +60,14 @@ public class Robot extends TimedRobot {
         counter6 = 0;
         counter7 = 0;
         counter8 = 0;
+        lounter = 0;
+        oldangle = get;
         double kp = 0.0, ki = 0.0, kd = 0.0;
         controller = new PIDController(kp, ki, kd);
         greenLight = new AddressableLED(1);
         redLight = new AddressableLED(2);
         yellowLight = new AddressableLED(3);
+        getOldangle = gyro.getAngleZ();
     }
     @Override
     public void teleopPeriodic() {
@@ -71,126 +77,7 @@ public class Robot extends TimedRobot {
     //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
-        while (encoder.getDistance() < 12*TICKS_PER_INCH) {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter1);
-            controller.setSetpoint(12 * TICKS_PER_INCH);
-            double output = controller.calculate(encoder.getDistance());
-            sparkRight.set(output);
-            sparkLeft.set(output);
-            counter1++;
-        }
-        greenLight.start();
-        while (gyro.getAngleZ() < 90) {
-            sparkLeft.set(0.5);
-            sparkRight.set(-0.5);
-        }
-        greenLight.close();
-        redLight.start();
-        while (encoder.getDistance() < 18*TICKS_PER_INCH) {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter2);
-            controller.setSetpoint(6 * TICKS_PER_INCH);
-            double output = controller.calculate(encoder.getDistance());
-            sparkRight.set(output);
-            sparkLeft.set(output);
-            counter2++;
-        }
-        redLight.close();
-        yellowLight.start();
-        while (gyro.getAngleZ() > 0) {
-            sparkLeft.set(0);
-            sparkRight.set(0.5);
-        }
-        yellowLight.close();
-        greenLight.start();
-        while (encoder.getDistance() < 42*TICKS_PER_INCH) {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter3);
-            controller.setSetpoint(24 * TICKS_PER_INCH);
-            double output = controller.calculate(encoder.getDistance());
-            sparkRight.set(output);
-            sparkLeft.set(output);
-            counter3++;
-        }
-        greenLight.close();
-        redLight.start();
-        while (gyro.getAngleZ() < 90) {
-            sparkLeft.set(0.5);
-            sparkRight.set(0);
-        }
-        redLight.close();
-        yellowLight.start();
-        while (encoder.getDistance() < 57*TICKS_PER_INCH) {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter4);
-            controller.setSetpoint(15 * TICKS_PER_INCH);
-            double output = controller.calculate(encoder.getDistance());
-            sparkRight.set(output);
-            sparkLeft.set(output);
-            counter4++;
-        }
-        yellowLight.close();
-        greenLight.start();
-        while (gyro.getAngleZ() > 0) {
-            sparkLeft.set(0);
-            sparkRight.set(0.5);
-        }
-        greenLight.close();
-        redLight.start();
-        while (encoder.getDistance() < 63*TICKS_PER_INCH) {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter5);
-            controller.setSetpoint(6 * TICKS_PER_INCH);
-            double output = controller.calculate(encoder.getDistance());
-            sparkRight.set(output);
-            sparkLeft.set(output);
-            counter5++;
-        }
-        redLight.close();
-        yellowLight.start();
-        while (gyro.getAngleZ() < 240) {
-            sparkLeft.set(0.5);
-            sparkRight.set(0);
-        }
-        yellowLight.close();
-        greenLight.start();
-        while (encoder.getDistance() < 87*TICKS_PER_INCH) {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter6);
-            controller.setSetpoint(24 * TICKS_PER_INCH);
-            double output = controller.calculate(encoder.getDistance());
-            sparkRight.set(output);
-            sparkLeft.set(output);
-            counter6++;
-        }
-        greenLight.close();
-        redLight.start();
-        while (gyro.getAngleZ() > -50) {
-            sparkLeft.set(0);
-            sparkRight.set(0.5);
-        }
-        redLight.close();
-        yellowLight.start();
-        while (encoder.getDistance() < 123*TICKS_PER_INCH) {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter7);
-            controller.setSetpoint(36 * TICKS_PER_INCH);
-            double output = controller.calculate(encoder.getDistance());
-            sparkRight.set(output);
-            sparkLeft.set(output);
-            counter7++;
-        }
-        yellowLight.close();
-        greenLight.start();
-        while (gyro.getAngleZ() > -112) {
-            sparkLeft.set(0);
-            sparkRight.set(0.5);
-        }
-        greenLight.close();
-        redLight.start();
-        while (encoder.getDistance() < 153*TICKS_PER_INCH) {
-            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter8);
-            controller.setSetpoint(36 * TICKS_PER_INCH);
-            double output = controller.calculate(encoder.getDistance());
-            sparkRight.set(output);
-            sparkLeft.set(output);
-            counter8++;
-        }
-        redLight.close();
+
     }
 
     //Runs when teleoperated mode (robot controlled by driver) is first activated
@@ -214,6 +101,145 @@ public class Robot extends TimedRobot {
     //Runs periodically during autonomous mode
     @Override
     public void autonomousPeriodic() {
+
+        if (encoder.getDistance() < 12*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter1);
+            controller.setSetpoint(12 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter1++;
+            lounter++;
+        }
+//        greenLight.start();
+        
+        if (gyro.getAngleZ() < 90) {
+            sparkLeft.set(0.5);
+            sparkRight.set(-0.5);
+            lounter++;
+        }
+//        greenLight.close();
+//        redLight.start();
+        if (encoder.getDistance() < 18*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter2);
+            controller.setSetpoint(6 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter2++;
+            lounter++;
+        }
+//        redLight.close();
+//        yellowLight.start();
+        if (gyro.getAngleZ() > 0) {
+            sparkLeft.set(0);
+            sparkRight.set(0.5);
+            lounter++;
+        }
+//        yellowLight.close();
+//        greenLight.start();
+        if (encoder.getDistance() < 42*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter3);
+            controller.setSetpoint(24 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter3++;
+            lounter++;
+        }
+//        greenLight.close();
+//        redLight.start();
+        if (gyro.getAngleZ() < 90) {
+            sparkLeft.set(0.5);
+            sparkRight.set(0);
+            lounter++;
+        }
+//        redLight.close();
+//        yellowLight.start();
+        if (encoder.getDistance() < 57*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter4);
+            controller.setSetpoint(15 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter4++;
+            lounter++;
+        }
+//        yellowLight.close();
+//        greenLight.start();
+        if (gyro.getAngleZ() > 0) {
+            sparkLeft.set(0);
+            sparkRight.set(0.5);
+            lounter++;
+        }
+//        greenLight.close();
+//        redLight.start();
+        if (encoder.getDistance() < 63*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter5);
+            controller.setSetpoint(6 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter5++;
+            lounter++;
+        }
+//        redLight.close();
+//        yellowLight.start();
+        if (gyro.getAngleZ() < 240) {
+            sparkLeft.set(0.5);
+            sparkRight.set(0);
+            lounter++;
+        }
+//        yellowLight.close();
+//        greenLight.start();
+        if (encoder.getDistance() < 87*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter6);
+            controller.setSetpoint(24 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter6++;
+            lounter++;
+        }
+//        greenLight.close();
+//        redLight.start();
+        if (gyro.getAngleZ() > -50) {
+            sparkLeft.set(0);
+            sparkRight.set(0.5);
+            lounter++;
+        }
+
+//        redLight.close();
+//        yellowLight.start();
+        if (encoder.getDistance() < 123*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter7);
+            controller.setSetpoint(36 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter7++;
+            lounter++;
+        }
+//        yellowLight.close();
+//        greenLight.start();
+        if (gyro.getAngleZ() > -112) {
+            sparkLeft.set(0);
+            sparkRight.set(0.5);
+            lounter++;
+        }
+//        greenLight.close();
+//        redLight.start();
+        if (encoder.getDistance() < 153*TICKS_PER_INCH) {
+            TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter8);
+            controller.setSetpoint(36 * TICKS_PER_INCH);
+            double output = controller.calculate(encoder.getDistance());
+            sparkRight.set(output);
+            sparkLeft.set(output);
+            counter8++;
+            lounter++;
+        }
+//        redLight.close();
+    }
 
     }
 
