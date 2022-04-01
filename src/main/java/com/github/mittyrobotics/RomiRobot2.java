@@ -33,6 +33,8 @@ public class RomiRobot2 extends TimedRobot {
 
     }
     public void challenge(){
+        //no whiles
+        //use variable so ++ when done with step6
         int currDistance = 0;
         currDistance += 12;
         moveForward(12, currDistance);
@@ -94,14 +96,14 @@ public class RomiRobot2 extends TimedRobot {
     public void changeDirection(int a_degrees, boolean right){
         if(right){
             //gyro check if it is greater than a_degrees
-            while(gyro.getAngleX()<a_degrees){
+            while(gyro.getAngleZ()<a_degrees){
                 SparkLeft.set(1);
                 SparkRight.set(-1);
             }
         }
         else{
             //gyro check if it is greater than a_degrees
-            while(gyro.getAngleX()<a_degrees){
+            while(gyro.getAngleZ()<a_degrees){
                 SparkLeft.set(-1);
                 SparkRight.set(1);
             }
