@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
         if (counting == stepNumber) {
             if (distanceTraveled < encoder.getDistance() - inchesToTravel) {
                 TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter1);
-                controller.setSetpoint(12 * TICKS_PER_INCH);
+                controller.setSetpoint(inchesToTravel * TICKS_PER_INCH);
                 double output = controller.calculate(encoder.getDistance());
                 sparkRight.set(output);
                 sparkLeft.set(output);
