@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
     TrapezoidProfile.Constraints constraints;
     TrapezoidProfile profile;
     TrapezoidProfile.State profileOutput;
-    int counter1, counter2, counter3, counter4, counter5, counter6, counter7, counter8;
+    int counter1;
     Encoder encoder;
     PIDController controller;
     //  AddressableLED greenLight;
@@ -49,13 +49,6 @@ public class Robot extends TimedRobot {
         TrapezoidProfile.State profileOutput = profile.calculate(0.2);
         encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
         counter1 = 0;
-        counter2 = 0;
-        counter3 =0;
-        counter4 = 0;
-        counter5 = 0;
-        counter6 = 0;
-        counter7 = 0;
-        counter8 = 0;
         double kp = 0.0, ki = 0.0, kd = 0.0;
         controller = new PIDController(kp, ki, kd);
 //      greenLight = new AddressableLED(1);
@@ -68,6 +61,7 @@ public class Robot extends TimedRobot {
 
     public void moveForward(int inchesToTravel, int stepNumber) {
         if (counting == stepNumber) {
+            counter1 = 0;
             if (distanceTraveled < encoder.getDistance() - inchesToTravel) {
                 TrapezoidProfile.State profileOutput = profile.calculate(0.02 * counter1);
                 controller.setSetpoint(inchesToTravel * TICKS_PER_INCH);
