@@ -1,11 +1,18 @@
 package com.github.mittyrobotics;
 
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+<<<<<<< Updated upstream
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import com.github.mittyrobotics.util.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+=======
+
+import static com.github.mittyrobotics.Constants.*;
+>>>>>>> Stashed changes
 
 
 //Java automatically runs this class, and calls the various functions.
@@ -20,6 +27,7 @@ public class Robot extends TimedRobot {
     /*
      *  INITIALIZE CLASSES HERE
      */
+<<<<<<< Updated upstream
     Spark SparkLeft, SparkRight;
     OI.getInstance().getXboxController().getAbutton();
     PIDController controller = new PIDController();
@@ -44,10 +52,22 @@ public class Robot extends TimedRobot {
 
 
 
+=======
 
-    }
+    TrapezoidProfile.State start;
+    TrapezoidProfile.State end;
+    TrapezoidProfile.Constraints constraints;
+    TrapezoidProfile profile;
+    TrapezoidProfile.State profileOutput;
+    Talon falcon = new Talon(0);
+>>>>>>> Stashed changes
+
+    PIDController controller;
+    Encoder encoder;
+    double t;
 
 
+<<<<<<< Updated upstream
 
     //Runs periodically during teleoperated mode
     /*
@@ -104,8 +124,21 @@ public class Robot extends TimedRobot {
 
 
     }
+=======
+>>>>>>> Stashed changes
 
-    //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
+        @Override
+    public void robotInit() {
+        start = new TrapezoidProfile.State(0, 0);
+        TrapezoidProfile.State end = new TrapezoidProfile.State(5.0, 0);
+        TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(2, 0.2);
+        TrapezoidProfile profile = new TrapezoidProfile(constraints, end, start);
+        TrapezoidProfile.State profileOutput = profile.calculate(0.2);
+        double kp = 1.0, ki = 2.0, kd = 3.0;
+        controller = new PIDController(kp, ki, kd);
+
+    }
+        //Runs when antonomous mode (robot runs on its own) first activated via the desktop application
     @Override
     public void autonomousInit() {
 
@@ -127,8 +160,12 @@ public class Robot extends TimedRobot {
     //Runs when teleoperated mode (robot controlled by driver) is first activated
     @Override
     public void teleopInit() {
+<<<<<<< Updated upstream
         SparkLeft.set(-1);
         SparkRight.set(1);
+=======
+        t = 0;
+>>>>>>> Stashed changes
     }
 
     //Runs when test mode is activated
@@ -155,4 +192,14 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
 
     }
+
+    @Override
+    public void teleopPeriodic() {
+        encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
+        TrapezoidProfile.State setpoint = profile.calculate(t);
+        controller.setSetpoint(setpoint.velocity);
+        controller.calculate(encoder.getRate());
+        t += 0.02;
+    }
 }
+
