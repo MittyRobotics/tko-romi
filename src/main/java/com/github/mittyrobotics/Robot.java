@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
     TrapezoidProfile profile;
     TrapezoidProfile.State profileOutput;
     Talon falcon = new Talon(0);
+    double velocity;
 
     PIDController controller;
     Encoder encoder;
@@ -86,8 +87,8 @@ public class Robot extends TimedRobot {
         encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
         TrapezoidProfile.State setpoint = profile.calculate(t);
         controller.setSetpoint(setpoint.velocity);
-        controller.calculate(encoder.getRate());
-        falcon.set(profileOutput.velocity);
+        velocity = controller.calculate(encoder.getRate());
+        falcon.set(velocity);
         t += 0.02;
     }
 }
