@@ -82,11 +82,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
+        TrapezoidProfile.State profileOutput = profile.calculate(0.2);
         encoder = new Encoder(Constants.ENCODER_IDS[0], Constants.ENCODER_IDS[1]);
         TrapezoidProfile.State setpoint = profile.calculate(t);
         controller.setSetpoint(setpoint.velocity);
         controller.calculate(encoder.getRate());
+        falcon.set(profileOutput.velocity);
         t += 0.02;
     }
 }
-

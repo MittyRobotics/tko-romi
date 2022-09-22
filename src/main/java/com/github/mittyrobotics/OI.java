@@ -17,15 +17,4 @@ public class OI {
         return instance;
 
     }
-
-    public XboxController getXox  edu.wpi.first.wpilibj.XboxController getXboxController() {
-        if (XboxController == null) {
-            XboxController = new XboxController(0);
-
-        }
-        return XboxController;
-
-    }
-
-
 }
