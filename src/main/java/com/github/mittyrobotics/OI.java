@@ -12,6 +12,7 @@ public class OI {
         return instance;
     }
 
+<<<<<<< Updated upstream
 
 
     public XboxController getXboxController(){
@@ -21,4 +22,8 @@ public class OI {
 
         return xboxController;
     }
+=======
+   
+
+>>>>>>> Stashed changes
 }
