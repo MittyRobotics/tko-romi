@@ -36,4 +36,3 @@ public class TankDriveCommand extends CommandBase {
         //return OI.getInstance().getAButtonPressed();
         return controller.getAButtonPressed();
     }
-}
