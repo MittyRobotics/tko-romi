@@ -11,7 +11,7 @@ public class TankDrive extends CommandBase {
 
 
     Spark SparkLeft, SparkRight;
-    DigitalInput input0;
+    DigitalInput input0;-
     DigitalInput input1;
     DigitalInput input2;
     DigitalInput input3;
