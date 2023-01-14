@@ -1,9 +1,6 @@
 package com.github.mittyrobotics;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
 
@@ -18,15 +15,19 @@ public class Robot extends TimedRobot {
      *  INITIALIZE CLASSES HERE
      */
 
+    public static Spark sparkLeft, sparkRight;
+    public static XboxController controller;
 
 
     @Override
     public void robotInit() {
-        Spark
+        sparkLeft = new Spark(Constants.LEFT_MOTOR_ID);
+        sparkRight = new Spark(Constants.RIGHT_MOTOR_ID);
 
     }
 
     //Runs periodically during teleoperated mode
+
     /*
      *  WRITE YOUR DRIVE CODE HERE
      */
