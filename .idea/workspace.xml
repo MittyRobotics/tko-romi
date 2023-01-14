@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34a8bc03-e56d-48a3-9c6f-5fe36900ebe8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="823fb439-b035-4736-9239-4984355859ff" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,7 +130,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2021.2.2/f19d9fb4592ce5c22c9061880b51089ec0b06bde/wpilibj-java-2021.2.2-sources.jar!/edu/wpi/first/wpilibj/IterativeRobotBase.java</url>
           <line>60</line>
-          <properties class="edu.wpi.first.wpilibj.IterativeRobotBase">
+          <properties class="edu.wpi.first.wpilibj.IterativeRobotBase" method="startCompetition">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="1" />
