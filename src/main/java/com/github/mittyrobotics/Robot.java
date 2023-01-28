@@ -18,6 +18,12 @@ public class Robot extends TimedRobot {
     public static Spark sparkLeft, sparkRight;
     public static XboxController controller;
 
+    TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(1.75, 0.75);
+    TrapezoidProfile.State m_goal = new TrapezoidProfile.State();
+    TrapezoidProfile.State m_start = new TrapezoidProfile.State();
+    TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
+
+    TrapezoidProfile profile = new TrapezoidProfile(constraints, m_goal, m_start);
 
     @Override
     public void robotInit() {
@@ -57,6 +63,8 @@ public class Robot extends TimedRobot {
     //Runs whenever the robot is on, periodically: should be used for command schedulers
     @Override
     public void robotPeriodic() {
+
+
 
     }
 

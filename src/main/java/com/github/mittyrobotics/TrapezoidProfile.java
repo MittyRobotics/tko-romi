@@ -86,6 +86,11 @@ public class TrapezoidProfile {
 
     }
 
+    public double getTacc(){return Tacc;}
+    public double getTmax(){return Tmax;}
+    public double getTdec(){return Tdec;}
+    public double getTtot(){return Tacc+Tmax+Tdec;}
+
     static class Constraints {
         private double Vmax;
         private double Amax;
